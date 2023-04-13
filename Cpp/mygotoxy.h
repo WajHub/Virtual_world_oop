@@ -1,10 +1,9 @@
 //
 // Created by hubert on 12.04.2023.
 //
-
+#pragma once
 #ifndef VIRTUAL_WORLD_MYGOTOXY_H
 #define VIRTUAL_WORLD_MYGOTOXY_H
-
 #include "windows.h"
 
 void gotoxy(int x, int y)

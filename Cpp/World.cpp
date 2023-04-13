@@ -1,7 +1,6 @@
 //
 // Created by hubert on 11.04.2023.
 //
-
 #include "World.h"
 #include "mygotoxy.h"
 #include "conio.h"
@@ -73,10 +72,10 @@ void World::load_size() {
     }
 }
 
-void World::draw_bord() {
+void World::draw_border() {
     system("cls");
     gotoxy(1,1);
-    std::cout<<"Welcome in your virtual world!";
+    std::cout<<"Welcome in your virtual world! (Hubert Wajda 193511)";
     for(int i=0;i<=x_size;i++){
         gotoxy(i+SITE_X,SITE_Y);
         std::cout<<"#";
@@ -89,11 +88,10 @@ void World::draw_bord() {
         gotoxy(SITE_X+x_size,SITE_Y+i);
         std::cout<<"#";
     }
-    getch();
 }
 
 void World::draw_world() {
-    draw_bord();
+
 }
 
 void World::make_turn() {
@@ -102,4 +100,12 @@ void World::make_turn() {
 
 World::~World() {
 
+}
+
+int World::getXSize() const {
+    return x_size;
+}
+
+int World::getYSize() const {
+    return y_size;
 }
