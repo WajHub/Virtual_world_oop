@@ -72,7 +72,7 @@ void World::load_size() {
 
 void World::draw_border() {
     system("cls");
-    gotoxy(1,1);
+    gotoxy(0,1);
     std::cout<<"Welcome in your virtual world! (Hubert Wajda 193511) Turn game:"<<turn;
     for(int i=0;i<=x_size;i++){
         gotoxy(i+SITE_X,SITE_Y);
@@ -86,6 +86,8 @@ void World::draw_border() {
         gotoxy(SITE_X+x_size,SITE_Y+i);
         std::cout<<"#";
     }
+    gotoxy(0,3);
+    std::cout<<char(25)<<"[NEWS]"<<char(25);
 }
 
 void World::draw_world() {
@@ -98,9 +100,11 @@ void World::draw_world() {
 void World::make_turn() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
-        (*it)->action();
+        if((*it)->isAbleToAction())(*it)->action();
+        else (*it)->setAbleToAction(true);
     }
     turn++;
+    y_news=4;
 }
 
 World::~World() {
@@ -130,4 +134,12 @@ void World::add_body(Body &body) {
         }
     }
     bodies.push_back(&body);
+}
+
+int World::getYNews() const {
+    return y_news;
+}
+
+void World::setYNews(int yNews) {
+    y_news = yNews;
 }

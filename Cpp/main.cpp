@@ -8,8 +8,8 @@ int main() {
     while(true){
         world.draw_border();
         world.draw_world();
-        getch();
         world.make_turn();
+        getch();
     }
     return 0;
 }

@@ -7,6 +7,8 @@
 #include <ctime>
 #include <iostream>
 void Animal::action() {
+    //wypisanie informacji [organizm](pozycja)
+    draw_news(getWorld().getYNews());
     srand(time(NULL));
     int random;
     int x =getXLocation();
@@ -41,6 +43,10 @@ void Animal::action() {
                 break;
         }
     }
+    //Wypisanie czynnosci jaka wykoanl organizm oraz zwiekszenie pozycji wyswietlania informacji
+    getWorld().setYNews(getWorld().getYNews()+1);
+    //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
+    std::cout<<"-> Move to ("<<getXLocation()<<", "<<getYLocation()<<")";
 }
 
 void Animal::collision(Body &other) {

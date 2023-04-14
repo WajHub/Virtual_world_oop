@@ -5,7 +5,7 @@
 #ifndef CPP_CONST_H
 #define CPP_CONST_H
 
-#define SITE_X 20
+#define SITE_X 50
 #define SITE_Y 5
 
 

@@ -19,6 +19,7 @@ private:
     //value starts from 1
     int x_location;
     int y_location;
+    bool able_to_action=false;
     World &world;
 protected:
     virtual void print_out(std::ostream& out) const = 0;
@@ -26,9 +27,9 @@ protected:
 public:
     virtual void action () = 0;
     virtual void collision(Body &other) = 0;
-    void draw() ;
+    void draw();
+    void draw_news(int location);
     Body(World &world, int xLocation, int yLocation);
-
     int getXLocation() const;
     int getYLocation() const;
     void setXLocation(int xLocation);
@@ -42,6 +43,10 @@ public:
     void setMark(char mark);
     void setPower(int power);
     void setInitiative(int initiative);
+    bool isAbleToAction() const;
+
+    void setAbleToAction(bool ableToAction);
+
     virtual ~Body();
 };
 
