@@ -68,10 +68,10 @@ void World::load_size() {
                 break;
         }
     }
-//    map= new char*[x_size];
-//    for (int i = 0; i < x_size; i++) {
-//        map[i] = new char [y_size];
-//    }
+    map= new char*[x_size];
+    for (int i = 0; i < x_size; i++) {
+        map[i] = new char [y_size];
+    }
 }
 
 void World::draw_border() {
