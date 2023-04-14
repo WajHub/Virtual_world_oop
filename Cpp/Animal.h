@@ -6,11 +6,17 @@
 #define CPP_ANIMAL_H
 
 #include "Body.h"
-#include "World.h"
+
 
 class Animal: public Body {
+protected:
+    void print_out(std:: ostream& out)  const override;
 public:
+    Animal(World &world, int xLocation, int yLocation);
     void action() override;
+    void collision(Body &other) override;
+    virtual void draw() = 0;
+    virtual ~Animal() ;
 };
 
 

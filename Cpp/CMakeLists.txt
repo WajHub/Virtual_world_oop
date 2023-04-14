@@ -3,4 +3,4 @@ project(Cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Cpp main.cpp World.h World.cpp mygotoxy.h Body.h Body.cpp Plant.h Plant.cpp Animal.h Animal.cpp Human.h Human.cpp)
+add_executable(Cpp main.cpp World.h World.cpp mygotoxy.h Body.h Body.cpp Plant.h Plant.cpp Animal.h Animal.cpp Human.h Human.cpp Wolf.h Wolf.cpp)

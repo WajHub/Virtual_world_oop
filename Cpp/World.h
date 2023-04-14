@@ -20,6 +20,7 @@ public:
     virtual ~World();
     void draw_world();
     void make_turn();
+    void add_body(Body &body);
     int getXSize() const;
     int getYSize() const;
 };

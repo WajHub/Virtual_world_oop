@@ -91,6 +91,9 @@ void World::draw_border() {
 }
 
 void World::draw_world() {
+    for (auto it = area.begin(); it != area.end(); ++it){
+
+    }
 
 }
 
@@ -99,7 +102,9 @@ void World::make_turn() {
 }
 
 World::~World() {
-
+    for (auto it = area.begin(); it != area.end(); ++it) {
+        delete *it;
+    }
 }
 
 int World::getXSize() const {
@@ -108,4 +113,10 @@ int World::getXSize() const {
 
 int World::getYSize() const {
     return y_size;
+}
+
+void World::add_body(Body &body) {
+    for(int i=0;i<area.size();i++){
+
+    }
 }

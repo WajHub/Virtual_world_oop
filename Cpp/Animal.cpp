@@ -5,6 +5,7 @@
 #include "Animal.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 void Animal::action() {
     srand(time(NULL));
     int random = rand() % 4 + 1;
@@ -43,3 +44,24 @@ void Animal::action() {
             break;
     }
 }
+
+void Animal::collision(Body &other) {
+
+}
+
+Animal::~Animal() {
+
+}
+
+Animal::Animal(World &world, int xLocation, int yLocation)
+: Body(world, xLocation, yLocation) {
+
+}
+
+void Animal::print_out(std::ostream &out) const {
+    out << "Name: "<<getName()<<" Location("<<getXLocation()<<", "<<getYLocation()<<")"<<std::endl;
+}
+
+
+
+
