@@ -3,13 +3,16 @@
 
 int main() {
     World world;
-    Wolf wolf(world,5,1);
+    Wolf wolf(world,30,20);
     world.add_body(wolf);
+    char c;
     while(true){
         world.draw_border();
         world.draw_world();
         world.make_turn();
-        getch();
+        c=getch();
+        if(c=='q') break;
     }
+    c='a';
     return 0;
 }

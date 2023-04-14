@@ -77,7 +77,7 @@ void Body::draw() {
 
 void Body::draw_news(int location) {
     gotoxy(0,location);
-    std::cout<<"["<<name<<"]"<<"("<<x_location<<", "<<y_location<<")";
+    std::cout<<name<<"["<<mark<<"]"<<"("<<x_location<<", "<<y_location<<")";
 }
 
 bool Body::isAbleToAction() const {

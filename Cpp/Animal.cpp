@@ -43,10 +43,12 @@ void Animal::action() {
                 break;
         }
     }
-    //Wypisanie czynnosci jaka wykoanl organizm oraz zwiekszenie pozycji wyswietlania informacji
+    //Wypisanie czynnosci jaka wykonal organizm oraz zwiekszenie pozycji wyswietlania informacji
     getWorld().setYNews(getWorld().getYNews()+1);
     //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
     std::cout<<"-> Move to ("<<getXLocation()<<", "<<getYLocation()<<")";
+    getWorld().getMap()[x-1][y-1]=' ';
+    getWorld().getMap()[getXLocation()-1][getYLocation()-1]=getMark();
 }
 
 void Animal::collision(Body &other) {

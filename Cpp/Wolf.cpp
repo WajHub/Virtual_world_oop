@@ -18,5 +18,9 @@ Wolf::Wolf(World &world, int xLocation, int yLocation)
     setPower(9);
 }
 
+Wolf::~Wolf() {
+
+}
+
 
 

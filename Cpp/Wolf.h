@@ -13,7 +13,7 @@ public:
     Wolf(World &world, int xLocation, int yLocation);
     void draw();
 
-
+    ~Wolf() override;
 };
 
 
