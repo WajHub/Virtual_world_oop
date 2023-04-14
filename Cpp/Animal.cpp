@@ -8,40 +8,38 @@
 #include <iostream>
 void Animal::action() {
     srand(time(NULL));
-    int random = rand() % 4 + 1;
-    switch (random) {
-        case 1:
-            if(getXLocation()<getWorld().getXSize()-1){
-                setXLocation(getXLocation()+1);
-            }
-            else{
-                setXLocation(getXLocation()-1);
-            }
-            break;
-        case 2:
-            if(getXLocation()>0){
-                setXLocation(getXLocation()-1);
-            }
-            else{
-                setXLocation(getXLocation()+1);
-            }
-            break;
-        case 3:
-            if(getYLocation()<getWorld().getYSize()-1){
-                setYLocation(getYLocation()+1);
-            }
-            else{
-                setYLocation(getYLocation()-1);
-            }
-            break;
-        case 4:
-            if(getYLocation()>0){
-                setYLocation(getYLocation()-1);
-            }
-            else{
-                setYLocation(getYLocation()+1);
-            }
-            break;
+    int random;
+    int x =getXLocation();
+    int y = getYLocation();
+    bool tmp = true;
+    while (tmp) {
+        random = (rand()+101+97*19)% 4 + 1;
+        switch (random) {
+            case 1:
+                if (x < getWorld().getXSize()) {
+                    setXLocation(x + 1);
+                    tmp=false;
+                }
+                break;
+            case 2:
+                if (x > 1) {
+                    setXLocation(x - 1);
+                    tmp = false;
+                }
+                break;
+            case 3:
+                if (y < getWorld().getYSize()) {
+                    setYLocation(y + 1);
+                    tmp = false;
+                }
+                break;
+            case 4:
+                if (y > 1) {
+                    setYLocation(y - 1);
+                    tmp = false;
+                }
+                break;
+        }
     }
 }
 

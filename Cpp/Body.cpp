@@ -3,8 +3,7 @@
 //
 
 #include "Body.h"
-#include "Const.h"
-#include "iostream"
+#include <iostream>
 
 int Body::getXLocation() const {
     return x_location;
@@ -72,6 +71,6 @@ std::ostream &operator<<(std::ostream &os, const Body &body) {
 }
 
 void Body::draw() {
-//    gotoxy(SITE_X+x_location,SITE_Y+y_location);
+    gotoxy(SITE_X+x_location,SITE_Y+y_location);
     std::cout<<mark;
 }

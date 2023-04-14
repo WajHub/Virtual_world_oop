@@ -1,6 +1,7 @@
 //
 // Created by hubert on 11.04.2023.
 //
+
 #include "World.h"
 #include <iostream>
 #include "mygotoxy.h"
@@ -72,7 +73,7 @@ void World::load_size() {
 void World::draw_border() {
     system("cls");
     gotoxy(1,1);
-    std::cout<<"Welcome in your virtual world! (Hubert Wajda 193511)";
+    std::cout<<"Welcome in your virtual world! (Hubert Wajda 193511) Turn game:"<<turn;
     for(int i=0;i<=x_size;i++){
         gotoxy(i+SITE_X,SITE_Y);
         std::cout<<"#";
@@ -90,9 +91,7 @@ void World::draw_border() {
 void World::draw_world() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
-//        (*it)->draw();
-        gotoxy(SITE_X+(*it)->getXLocation(),SITE_Y+(*it)->getYLocation());
-        std::cout<<(*it)->getMark();
+        (*it)->draw();
     }
 }
 
@@ -101,6 +100,7 @@ void World::make_turn() {
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         (*it)->action();
     }
+    turn++;
 }
 
 World::~World() {

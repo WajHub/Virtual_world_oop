@@ -1,18 +1,13 @@
 //
-// Created by hubert on 12.04.2023.
+// Created by hubert on 14.04.2023.
 //
-#pragma once
-#ifndef VIRTUAL_WORLD_MYGOTOXY_H
-#define VIRTUAL_WORLD_MYGOTOXY_H
-#include "windows.h"
 
-void gotoxy(int x, int y)
-{
-    COORD coord;
-    coord.X = x;
-    coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+#ifndef CPP_MYGOTOXY_H
+#define CPP_MYGOTOXY_H
 
 
-#endif //VIRTUAL_WORLD_MYGOTOXY_H
+void gotoxy(int x, int y);
+
+
+
+#endif //CPP_MYGOTOXY_H

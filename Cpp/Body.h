@@ -5,7 +5,8 @@
 #ifndef CPP_BODY_H
 #define CPP_BODY_H
 #include "string"
-
+#include "Const.h"
+#include "mygotoxy.h"
 
 class World;
 
