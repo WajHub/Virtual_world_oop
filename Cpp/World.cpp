@@ -102,9 +102,7 @@ void World::make_turn() {
 }
 
 World::~World() {
-    for (auto it = area.begin(); it != area.end(); ++it) {
-        delete *it;
-    }
+
 }
 
 int World::getXSize() const {

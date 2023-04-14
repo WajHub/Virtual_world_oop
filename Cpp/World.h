@@ -5,11 +5,11 @@
 #ifndef VIRTUAL_WORLD_WORLD_H
 #define VIRTUAL_WORLD_WORLD_H
 #include <list>
-class Body;
+#include "Body.h"
 
 class World {
 private:
-    std::list<Body*> area;
+    std::list<Body> area;
     int x_size=20;
     int y_size=20;
     void print_menu_load_size();

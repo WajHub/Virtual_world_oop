@@ -56,9 +56,6 @@ void Body::setInitiative(int initiative) {
     Body::initiative = initiative;
 }
 
-void Body::setWorld(World &world) {
-    Body::world = world;
-}
 
 Body::~Body() {
 

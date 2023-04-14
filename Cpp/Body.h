@@ -4,8 +4,8 @@
 #pragma once
 #ifndef CPP_BODY_H
 #define CPP_BODY_H
-#include "World.h"
 #include "string"
+class World;
 
 class Body {
 private:
@@ -38,8 +38,6 @@ public:
     void setMark(char mark);
     void setPower(int power);
     void setInitiative(int initiative);
-    void setWorld(World &world);
-
     virtual ~Body();
 };
 
