@@ -71,6 +71,9 @@ void World::load_size() {
     map= new char*[x_size];
     for (int i = 0; i < x_size; i++) {
         map[i] = new char [y_size];
+        for (int j = 0; j < y_size; j++) {
+            map[i][j] = ' ';
+        }
     }
 }
 
@@ -124,10 +127,10 @@ World::~World() {
 //    for (auto it = bodies.begin(); it != bodies.end(); ++it) {
 //        delete *it;
 //    }
-//    for (int i = 0; i < x_size; i++) {
-//        delete[] map[i];
-//    }
-//    delete[] map;
+    for (int i = 0; i < x_size; i++) {
+        delete[] map[i];
+    }
+    delete[] map;
 }
 
 int World::getXSize() const {

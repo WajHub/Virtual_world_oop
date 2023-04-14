@@ -11,6 +11,7 @@
 #include "mygotoxy.h"
 
 
+
 class World {
 private:
     std::list<Body*> bodies;

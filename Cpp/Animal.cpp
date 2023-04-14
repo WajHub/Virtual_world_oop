@@ -6,43 +6,56 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-void Animal::action() {
-    //wypisanie informacji [organizm](pozycja)
-    draw_news(getWorld().getYNews());
+
+void Animal::random_location(int &new_x, int &new_y,int x, int y) {
     srand(time(NULL));
     int random;
-    int x =getXLocation();
-    int y = getYLocation();
     bool tmp = true;
     while (tmp) {
         random = (rand()+101+97*19)% 4 + 1;
         switch (random) {
             case 1:
                 if (x < getWorld().getXSize()) {
-                    setXLocation(x + 1);
+                    new_x++;
                     tmp=false;
                 }
                 break;
             case 2:
                 if (x > 1) {
-                    setXLocation(x - 1);
+                    new_x--;
                     tmp = false;
                 }
                 break;
             case 3:
                 if (y < getWorld().getYSize()) {
-                    setYLocation(y + 1);
+                    new_y++;
                     tmp = false;
                 }
                 break;
             case 4:
                 if (y > 1) {
-                    setYLocation(y - 1);
+                    new_y--;
                     tmp = false;
                 }
                 break;
         }
     }
+}
+
+void Animal::action() {
+    //wypisanie informacji [organizm](pozycja)
+    draw_news(getWorld().getYNews());
+    int x =getXLocation();
+    int y = getYLocation();
+    int new_x=x;
+    int new_y=y;
+    random_location(new_x,new_y,x ,y);
+    //Kolizja
+    if(getWorld().getMap()[new_x-1][new_y-1]!=' '){
+
+    }
+    setXLocation(new_x);
+    setYLocation(new_y);
     //Wypisanie czynnosci jaka wykonal organizm oraz zwiekszenie pozycji wyswietlania informacji
     getWorld().setYNews(getWorld().getYNews()+1);
     //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
@@ -67,6 +80,8 @@ Animal::Animal(World &world, int xLocation, int yLocation)
 void Animal::print_out(std::ostream &out) const {
     out << "Name: "<<getName()<<" Location("<<getXLocation()<<", "<<getYLocation()<<")"<<std::endl;
 }
+
+
 
 
 

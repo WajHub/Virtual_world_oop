@@ -1,10 +1,10 @@
 #include <conio.h>
 #include "Wolf.h"
 
+
 int main() {
     World world;
-    Wolf wolf(world,30,20);
-    world.add_body(wolf);
+    world.add_body(*new Wolf(world,30,20));
     char c;
     while(true){
         world.draw_border();
