@@ -5,13 +5,12 @@
 #ifndef CPP_WOLF_H
 #define CPP_WOLF_H
 
-
 #include "Animal.h"
-#include "string.h"
+#include "string"
+
 class Wolf: public Animal {
 public:
     Wolf(World &world, int xLocation, int yLocation);
-
     void draw();
 
 

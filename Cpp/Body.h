@@ -5,6 +5,8 @@
 #ifndef CPP_BODY_H
 #define CPP_BODY_H
 #include "string"
+
+
 class World;
 
 class Body {
@@ -13,6 +15,7 @@ private:
     char mark;
     int power;
     int initiative;
+    //value starts from 1
     int x_location;
     int y_location;
     World &world;
@@ -22,7 +25,7 @@ protected:
 public:
     virtual void action () = 0;
     virtual void collision(Body &other) = 0;
-    virtual void draw() = 0;
+    void draw() ;
     Body(World &world, int xLocation, int yLocation);
 
     int getXLocation() const;

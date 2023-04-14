@@ -6,10 +6,13 @@
 #define VIRTUAL_WORLD_WORLD_H
 #include <list>
 #include "Body.h"
+#include "Const.h"
+#include <conio.h>
+
 
 class World {
 private:
-    std::list<Body> area;
+    std::list<Body*> bodies;
     int x_size=20;
     int y_size=20;
     void print_menu_load_size();

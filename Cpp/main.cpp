@@ -1,11 +1,15 @@
-#include "World.h"
-#include "conio.h"
+#include <conio.h>
+#include "Wolf.h"
 
 int main() {
     World world;
     world.draw_border();
-    getch();
-    world.draw_world();
 
+    Wolf wolf(world,1,1);
+    world.add_body(wolf);
+    while(true){
+        world.draw_world();
+        getch();
+    }
     return 0;
 }

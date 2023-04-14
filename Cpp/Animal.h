@@ -5,7 +5,6 @@
 #ifndef CPP_ANIMAL_H
 #define CPP_ANIMAL_H
 #include "World.h"
-#include "Body.h"
 
 
 class Animal: public Body {

@@ -2,12 +2,9 @@
 // Created by hubert on 11.04.2023.
 //
 #include "World.h"
-#include "mygotoxy.h"
-#include "conio.h"
 #include <iostream>
+#include "mygotoxy.h"
 
-#define SITE_X 20
-#define SITE_Y 5
 
 World::World() {
     load_size();
@@ -91,18 +88,25 @@ void World::draw_border() {
 }
 
 void World::draw_world() {
-    for (auto it = area.begin(); it != area.end(); ++it){
-
+    std::list<Body*>::iterator it;
+    for (it = bodies.begin(); it != bodies.end(); ++it) {
+//        (*it)->draw();
+        gotoxy(SITE_X+(*it)->getXLocation(),SITE_Y+(*it)->getYLocation());
+        std::cout<<(*it)->getMark();
     }
-
 }
 
 void World::make_turn() {
-
+    std::list<Body*>::iterator it;
+    for (it = bodies.begin(); it != bodies.end(); ++it) {
+        (*it)->action();
+    }
 }
 
 World::~World() {
-
+    for (auto it = bodies.begin(); it != bodies.end(); ++it) {
+        delete *it;
+    }
 }
 
 int World::getXSize() const {
@@ -114,7 +118,16 @@ int World::getYSize() const {
 }
 
 void World::add_body(Body &body) {
-    for(int i=0;i<area.size();i++){
+    std::list<Body*>::iterator it;
+    for (it = bodies.begin(); it != bodies.end(); ++it){
+        if((*it)->getInitiative()<body.getInitiative()){
+            bodies.insert(it,1,&body);
+            return ;
+        }
+        //Gdy maja taka sama inicjatywe
+        else if((*it)->getInitiative()==body.getInitiative()){
 
+        }
     }
+    bodies.push_back(&body);
 }
