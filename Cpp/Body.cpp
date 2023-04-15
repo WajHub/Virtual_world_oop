@@ -95,3 +95,4 @@ int Body::getAge() const {
 void Body::setAge(int age) {
     Body::age = age;
 }
+

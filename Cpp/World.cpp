@@ -181,3 +181,30 @@ Body* World::get_body(int x, int y) {
     }
     return nullptr;
 }
+
+int World::free_spaces(Body &body) {
+    int result =0;
+    int x=body.getXLocation();
+    int y=body.getYLocation();
+    if(x==1){
+        if(map[x][y-1]!=' ') result++;
+    }
+    else if(x==x_size){
+        if(map[x-2][y-1]!=' ') result++;
+    }
+    else{
+        if(map[x][y-1]!=' ') result++;
+        if(map[x-2][y-1]!=' ') result++;
+    }
+    if(y==1){
+        if(map[x-1][y]!=' ') result++;
+    }
+    else if(y==y_size){
+        if(map[x-1][y-2]!=' ') result++;
+    }
+    else{
+        if(map[x-1][y]!=' ') result++;
+        if(map[x-1][y-2]!=' ') result++;
+    }
+    return result;
+}

@@ -28,6 +28,7 @@ public:
     void draw_world();
     void make_turn();
     void add_body(Body &body);
+    int free_spaces(Body &body);
     Body* get_body(int x, int y);
     int getXSize() const;
     int getYSize() const;
