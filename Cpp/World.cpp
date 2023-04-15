@@ -116,7 +116,10 @@ void World::draw_world() {
 void World::make_turn() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
-        if((*it)->isAbleToAction())(*it)->action();
+        if((*it)->isAbleToAction()){
+            (*it)->action();
+            (*it)->setAge((*it)->getAge()+1);
+        }
         else (*it)->setAbleToAction(true);
     }
     turn++;
@@ -167,4 +170,14 @@ void World::setYNews(int yNews) {
 
 char **World::getMap() {
     return map;
+}
+
+Body* World::get_body(int x, int y) {
+    std::list<Body*>::iterator it;
+    for (it = bodies.begin(); it != bodies.end(); ++it) {
+        if ((*it)->getXLocation()==x &&(*it)->getYLocation()==y) {
+            return (*it);
+        }
+    }
+    return nullptr;
 }

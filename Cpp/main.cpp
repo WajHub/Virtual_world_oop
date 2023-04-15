@@ -5,11 +5,12 @@
 int main() {
     World world;
     world.add_body(*new Wolf(world,30,20));
+    world.add_body(*new Wolf(world,30,19));
     char c;
     while(true){
         world.draw_border();
-        world.draw_world();
         world.make_turn();
+        world.draw_world();
         c=getch();
         if(c=='q') break;
     }

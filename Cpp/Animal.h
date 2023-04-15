@@ -12,6 +12,7 @@ protected:
     void print_out(std:: ostream& out)  const override;
 public:
     Animal(World &world, int xLocation, int yLocation);
+    void move(int new_x, int new_y,int x, int y);
     void random_location(int &new_x, int &new_y,int x, int y);
     void action() override;
     void collision(Body &other) override;

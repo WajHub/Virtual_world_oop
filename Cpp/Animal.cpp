@@ -42,18 +42,7 @@ void Animal::random_location(int &new_x, int &new_y,int x, int y) {
     }
 }
 
-void Animal::action() {
-    //wypisanie informacji [organizm](pozycja)
-    draw_news(getWorld().getYNews());
-    int x =getXLocation();
-    int y = getYLocation();
-    int new_x=x;
-    int new_y=y;
-    random_location(new_x,new_y,x ,y);
-    //Kolizja
-    if(getWorld().getMap()[new_x-1][new_y-1]!=' '){
-
-    }
+void Animal::move(int new_x, int new_y,int x, int y) {
     setXLocation(new_x);
     setYLocation(new_y);
     //Wypisanie czynnosci jaka wykonal organizm oraz zwiekszenie pozycji wyswietlania informacji
@@ -64,8 +53,43 @@ void Animal::action() {
     getWorld().getMap()[getXLocation()-1][getYLocation()-1]=getMark();
 }
 
-void Animal::collision(Body &other) {
 
+void Animal::action() {
+    //wypisanie informacji [organizm](pozycja)
+    draw_news(getWorld().getYNews());
+    int x =getXLocation();
+    int y = getYLocation();
+    int new_x=x;
+    int new_y=y;
+    random_location(new_x,new_y,x ,y);
+    //Kolizja
+    if(getWorld().getMap()[new_x-1][new_y-1]!=' '){
+        Body *tmp = getWorld().get_body(new_x,new_y);
+        if(tmp->getMark()==getMark()){
+            collision(*tmp);
+        }
+        else{
+
+        }
+    }
+    else{
+        move(new_x,new_y,x,y);
+    }
+
+}
+
+void Animal::collision(Body &other) {
+    if(getAge()>0 && other.getAge()>0){
+        int new_x;
+        int new_y;
+
+    }
+    //Nie dochodzi do rozmnazania z powodu za malego wieku ktoregos ze zwierzat
+    else{
+        getWorld().setYNews(getWorld().getYNews()+1);
+        //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
+        std::cout<<"-> it's not able to gender (too young) ("<<getXLocation()<<", "<<getYLocation()<<")";
+    }
 }
 
 Animal::~Animal() {
@@ -80,6 +104,7 @@ Animal::Animal(World &world, int xLocation, int yLocation)
 void Animal::print_out(std::ostream &out) const {
     out << "Name: "<<getName()<<" Location("<<getXLocation()<<", "<<getYLocation()<<")"<<std::endl;
 }
+
 
 
 

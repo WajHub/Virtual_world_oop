@@ -16,6 +16,7 @@ private:
     char mark;
     int power;
     int initiative;
+    int age=0;
     //value starts from 1
     int x_location;
     int y_location;
@@ -37,6 +38,8 @@ public:
     const std::string &getName() const;
     char getMark() const;
     int getPower() const;
+    void setAge(int age);
+    int getAge() const;
     int getInitiative() const;
     World &getWorld() const;
     void setName(const std::string &name);
@@ -44,9 +47,8 @@ public:
     void setPower(int power);
     void setInitiative(int initiative);
     bool isAbleToAction() const;
-
+    //organizm jest zdolny do ruchu jedna tura po jego utworzeniu
     void setAbleToAction(bool ableToAction);
-
     virtual ~Body();
 };
 

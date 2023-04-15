@@ -87,3 +87,11 @@ bool Body::isAbleToAction() const {
 void Body::setAbleToAction(bool ableToAction) {
     able_to_action = ableToAction;
 }
+
+int Body::getAge() const {
+    return age;
+}
+
+void Body::setAge(int age) {
+    Body::age = age;
+}
