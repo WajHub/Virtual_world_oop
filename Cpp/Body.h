@@ -25,16 +25,16 @@ private:
 protected:
     virtual void action () = 0;
     World &getWorld() const;
-    virtual void draw_news(int location);
-    const std::string &getName() const;
-    int getPower() const;
+    virtual void draw_news(std::string inf);
     void setAge(int age);
-    void setName(const std::string &name);
     void setMark(char mark);
     void setPower(int power);
     void setInitiative(int initiative);
     void random_location(Body &body, int &new_x, int &new_y);
 public:
+    const std::string &getName() const;
+    void setName(const std::string &name);
+    int getPower() const;
     virtual void collision(Body *other) = 0;
     void setXLocation(int xLocation);
     void setYLocation(int yLocation);

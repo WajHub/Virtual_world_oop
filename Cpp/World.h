@@ -16,8 +16,8 @@ class World {
 private:
     std::list<Body*> bodies;
     char **map;
-    int x_size=3;
-    int y_size=3;
+    int x_size=20;
+    int y_size=20;
     int turn=1;
     int y_news=4;
     void print_menu_load_size();
@@ -28,11 +28,12 @@ public:
     void draw_world();
     void make_turn();
     void add_body(Body &body);
+    void delete_body(Body *body);
     int free_spaces(Body &body);
     Body* get_body(int x, int y);
     int getXSize() const;
     int getYSize() const;
-    int getYNews() const;
+    int getYNews();
     void setYNews(int yNews);
     char **getMap();
     virtual ~World();

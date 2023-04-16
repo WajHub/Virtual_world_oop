@@ -6,9 +6,11 @@
 #include <iostream>
 #include "mygotoxy.h"
 #include "Wolf.h"
+#include "Sheep.h"
 
 World::World() {
     load_size();
+    system("cls");
 }
 
 void World::print_menu_load_size() {
@@ -103,7 +105,9 @@ void World::draw_border() {
     gotoxy(SITE_X+x_size+1,SITE_Y+y_size+1);
     std::cout<<char(217);
     gotoxy(0,3);
-    std::cout<<char(25)<<"[NEWS]"<<char(25)<<"  "<<char(179)<<" LEGEND: "<<"W - Wolf ("<<Wolf::getAmount_wolf()<<")" ;
+    std::cout<<char(25)<<"[NEWS]"<<char(25)<<"  "<<char(179)<<" LEGEND: "
+    <<"W - Wolf ("<<Wolf::getAmount_wolf()<<") "
+    <<"S - Sheep ("<<Sheep::getAmount_sheep()<<")";
 }
 
 void World::draw_world() {
@@ -112,7 +116,7 @@ void World::draw_world() {
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         (*it)->draw();
     }
-    World::test_map(*this);
+//    World::test_map(*this);
 }
 
 void World::make_turn() {
@@ -164,7 +168,13 @@ void World::add_body(Body &body) {
     map[body.getXLocation()-1][body.getYLocation()-1]=body.getMark();
 }
 
-int World::getYNews() const {
+void World::delete_body(Body *body) {
+    map[body->getXLocation()-1][body->getYLocation()-1]=' ';
+    bodies.remove(body);
+    delete body;
+}
+
+int World::getYNews()  {
     return y_news;
 }
 
@@ -221,3 +231,5 @@ void World::test_map(World &world) {
         }
     }
 }
+
+

@@ -7,6 +7,7 @@
 #include <ctime>
 #include <iostream>
 #include "Wolf.h"
+#include "Sheep.h"
 
 
 void Animal::action() {
@@ -55,8 +56,12 @@ void Animal::action() {
 
 
 void Animal::back_move() {
+    int tmp_x=getXLocation();
+    int tmp_y=getYLocation();
     setXLocation(getLastPositionX());
     setYLocation(getLastPositionY());
+    setLastPositionX(tmp_x);
+    setLastPositionY(tmp_y);
     getWorld().getMap()[getXLocation()-1][getYLocation()-1]=getMark();
 }
 
@@ -65,16 +70,13 @@ void Animal::move() {
     action();
     if(world.getMap()[getXLocation()-1][getYLocation()-1]!=' '){
         //Kolizja
-        Body *tmp = world.get_body(getXLocation(),getYLocation());
+        this->back_move();
+        Body *tmp = world.get_body(getLastPositionX(),getLastPositionY());
+        this->back_move();
         tmp->collision(this);
     }
     else{
-        //wypisanie informacji [organizm](pozycja)
-        if(getWorld().getYNews()<10){
-            draw_news(getWorld().getYNews());
-            std::cout<<"-> Move to ("<<getXLocation()<<", "<<getYLocation()<<")";
-            world.setYNews(getWorld().getYNews()+1);
-        }
+        draw_news("-> Move to ("+std::to_string(getXLocation())+", "+std::to_string(getYLocation())+")");
         world.getMap()[last_position_x-1][last_position_y-1]=' ';
         world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
     }
@@ -126,27 +128,30 @@ void Animal::born(Body *attacker) {
         int new_x;
         int new_y;
         if(random_location_born(new_x,new_y,*attacker)){
-            getWorld().add_body(*new Wolf(getWorld(),new_x,new_y));
-            if(getWorld().getYNews()<10){
-                draw_news(getWorld().getYNews());
-                std::cout<<"-> Born ("<<new_x<<", "<<new_y<<")";
-                getWorld().setYNews(getWorld().getYNews()+1);
+            switch(getMark()){
+                case'W':
+                    getWorld().add_body(*new Wolf(getWorld(),new_x,new_y));
+                    break;
+                case'S':
+                    getWorld().add_body(*new Sheep(getWorld(),new_x,new_y));
+                    break;
             }
+            draw_news("-> Born ("+
+                                            std::to_string(new_x)+", "+
+                                            std::to_string(new_y)+")");
+
         }
         else{
-            if(getWorld().getYNews()<10){
-                draw_news(getWorld().getYNews());
-                std::cout<<"-> it's not able to gender (lack of space) ("<<getXLocation()<<", "<<getYLocation()<<")";
-                getWorld().setYNews(getWorld().getYNews()+1);
-            }
+            draw_news("-> it's not able to gender (lack of space) ("+
+                                            std::to_string(getXLocation())+", "+
+                                            std::to_string(getYLocation())+")");
+
         }
     }
     else {
-        if(getWorld().getYNews()<10){
-            draw_news(getWorld().getYNews());
-            std::cout<<"-> it's not able to gender (too young) ("<<getXLocation()<<", "<<getYLocation()<<")";
-            getWorld().setYNews(getWorld().getYNews()+1);
-        }
+        draw_news("-> it's not able to gender (too young) ("+
+                                                            std::to_string(getXLocation())+", "+
+                                                            std::to_string(getYLocation())+")");
     }
 }
 
@@ -156,7 +161,18 @@ void Animal::collision(Body *attacker) {
         born(attacker);
     }
     else{
-
+        if(this->getPower()>attacker->getPower()){
+            draw_news("-> kill "+attacker->getName()+
+                      std::to_string(getXLocation())+", "+
+                      std::to_string(getYLocation())+")");
+            getWorld().delete_body(attacker);
+        }
+        else{
+            draw_news("-> kill "+this->getName()+
+                      std::to_string(getXLocation())+", "+
+                      std::to_string(getYLocation())+")");
+            getWorld().delete_body(this);
+        }
     }
 }
 
@@ -186,9 +202,13 @@ int Animal::getLastPositionY() const {
     return last_position_y;
 }
 
-void Animal::draw_news(int location) {
-    gotoxy(0,location);
-    std::cout<<getName()<<"["<<getMark()<<"]"<<"("<<getLastPositionX()<<", "<<getLastPositionY()<<")";
+void Animal::draw_news(std::string inf) {
+    if(getWorld().getYNews()<30){
+        gotoxy(0,getWorld().getYNews());
+        std::cout<<getName()<<"["<<getMark()<<"]"<<"("<<getLastPositionX()<<", "<<getLastPositionY()<<")"<<inf;
+        getWorld().setYNews(getWorld().getYNews()+1);
+    }
+
 }
 
 

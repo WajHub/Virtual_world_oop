@@ -73,9 +73,10 @@ void Body::draw() {
     std::cout<<mark;
 }
 
-void Body::draw_news(int location) {
-    gotoxy(200,location);
+void Body::draw_news(std::string inf) {
+    gotoxy(0,getWorld().getYNews());
     std::cout<<name<<"["<<mark<<"]"<<"("<<x_location<<", "<<y_location<<")";
+    getWorld().setYNews(getWorld().getYNews()+1);
 }
 
 bool Body::isAbleToAction() const {
