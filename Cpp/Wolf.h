@@ -9,10 +9,12 @@
 #include "string"
 
 class Wolf: public Animal {
+private:
+    static int amount;
 public:
     Wolf(World &world, int xLocation, int yLocation);
-    void draw();
-
+    bool repel_attack(Body &attacker) override;
+    static int getAmount_wolf();
     ~Wolf() override;
 };
 

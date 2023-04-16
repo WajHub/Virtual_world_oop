@@ -8,15 +8,14 @@
 
 
 class Animal: public Body {
-protected:
-    void print_out(std:: ostream& out)  const override;
 public:
     Animal(World &world, int xLocation, int yLocation);
+    virtual bool repel_attack(Body &attacker)=0;
     void move(int new_x, int new_y,int x, int y);
     void random_location(int &new_x, int &new_y,int x, int y);
     void random_location_born(int &new_x,int &new_y,Body &other);
-    void action() override;
-    void collision(Body &other) override;
+    virtual void action() override;
+    virtual void collision(Body &other) override;
     virtual ~Animal() ;
 };
 

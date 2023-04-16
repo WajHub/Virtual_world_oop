@@ -5,7 +5,7 @@
 #include "World.h"
 #include <iostream>
 #include "mygotoxy.h"
-
+#include "Wolf.h"
 
 World::World() {
     load_size();
@@ -103,7 +103,7 @@ void World::draw_border() {
     gotoxy(SITE_X+x_size+1,SITE_Y+y_size+1);
     std::cout<<char(217);
     gotoxy(0,3);
-    std::cout<<char(25)<<"[NEWS]"<<char(25)<<"  "<<char(179)<<" LEGEND: "<<"W - Wolf" ;
+    std::cout<<char(25)<<"[NEWS]"<<char(25)<<"  "<<char(179)<<" LEGEND: "<<"W - Wolf ("<<Wolf::getAmount_wolf()<<")" ;
 }
 
 void World::draw_world() {
@@ -127,9 +127,10 @@ void World::make_turn() {
 }
 
 World::~World() {
-//    for (auto it = bodies.begin(); it != bodies.end(); ++it) {
-//        delete *it;
-//    }
+    for (auto it = bodies.begin(); it != bodies.end(); ++it) {
+        delete *it;
+    }
+
     for (int i = 0; i < x_size; i++) {
         delete[] map[i];
     }

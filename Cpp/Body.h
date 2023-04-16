@@ -22,15 +22,12 @@ private:
     int y_location;
     bool able_to_action=false;
     World &world;
-protected:
-    virtual void print_out(std::ostream& out) const = 0;
-    friend std::ostream& operator<<(std::ostream& os, const Body& body);
 public:
+    Body(World &world, int xLocation, int yLocation);
     virtual void action () = 0;
     virtual void collision(Body &other) = 0;
     void draw();
     void draw_news(int location);
-    Body(World &world, int xLocation, int yLocation);
     int getXLocation() const;
     int getYLocation() const;
     void setXLocation(int xLocation);

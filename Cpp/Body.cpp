@@ -65,10 +65,6 @@ Body::~Body() {
 Body::Body( World &world,int xLocation, int yLocation) : world(world), x_location(xLocation),
                                                                     y_location(yLocation) {}
 
-std::ostream &operator<<(std::ostream &os, const Body &body) {
-    body.print_out(os);
-    return os;
-}
 
 void Body::draw() {
     gotoxy(SITE_X+x_location,SITE_Y+y_location);
