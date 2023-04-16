@@ -22,28 +22,32 @@ private:
     int y_location;
     bool able_to_action=false;
     World &world;
-public:
-    Body(World &world, int xLocation, int yLocation);
-    virtual void move() =0;
+protected:
     virtual void action () = 0;
-    virtual void collision(Body &other) = 0;
+    World &getWorld() const;
     virtual void draw_news(int location);
-    void draw();
-    int getXLocation() const;
-    int getYLocation() const;
-    void setXLocation(int xLocation);
-    void setYLocation(int yLocation);
     const std::string &getName() const;
-    char getMark() const;
     int getPower() const;
     void setAge(int age);
-    int getAge() const;
-    int getInitiative() const;
-    World &getWorld() const;
     void setName(const std::string &name);
     void setMark(char mark);
     void setPower(int power);
     void setInitiative(int initiative);
+    void random_location(Body &body, int &new_x, int &new_y);
+public:
+    virtual void collision(Body *other) = 0;
+    void setXLocation(int xLocation);
+    void setYLocation(int yLocation);
+    int getXLocation() const;
+    int getYLocation() const;
+    void draw();
+    void incrementAge();
+    char getMark() const;
+    int getAge() const;
+    int getInitiative() const;
+    virtual void back_move()=0;
+    Body(World &world, int xLocation, int yLocation);
+    virtual void move() =0;
     bool isAbleToAction() const;
     //organizm jest zdolny do ruchu jedna tura po jego utworzeniu
     void setAbleToAction(bool ableToAction);

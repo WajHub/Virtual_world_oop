@@ -4,6 +4,8 @@
 
 #include "Body.h"
 #include <iostream>
+#include "World.h"
+
 
 int Body::getXLocation() const {
     return x_location;
@@ -72,7 +74,7 @@ void Body::draw() {
 }
 
 void Body::draw_news(int location) {
-    gotoxy(0,location);
+    gotoxy(200,location);
     std::cout<<name<<"["<<mark<<"]"<<"("<<x_location<<", "<<y_location<<")";
 }
 
@@ -90,5 +92,49 @@ int Body::getAge() const {
 
 void Body::setAge(int age) {
     Body::age = age;
+}
+
+void Body::incrementAge() {
+ Body::age++;
+}
+
+void Body::random_location(Body &body,int &new_x, int &new_y) {
+    World &world = getWorld();
+    int x =body.getXLocation();
+    int y = body.getYLocation();
+    new_x=x;
+    new_y=y;
+    srand(time(NULL));
+    int random;
+    bool tmp = true;
+    while (tmp) {
+        random = (rand()+101+97*19)% 4 + 1;
+        switch (random) {
+            case 1:
+                if (x < world.getXSize() && getWorld().getMap()[x][y-1]==' ') {
+                    new_x++;
+                    tmp=false;
+                }
+                break;
+            case 2:
+                if (x > 1 && getWorld().getMap()[x-2][y-1]==' ') {
+                    new_x--;
+                    tmp = false;
+                }
+                break;
+            case 3:
+                if (y < getWorld().getYSize() && getWorld().getMap()[x-1][y]==' ') {
+                    new_y++;
+                    tmp = false;
+                }
+                break;
+            case 4:
+                if (y > 1 && getWorld().getMap()[x-1][y-2]==' ') {
+                    new_y--;
+                    tmp = false;
+                }
+                break;
+        }
+    }
 }
 

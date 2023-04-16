@@ -11,20 +11,21 @@ class Animal: public Body {
 private:
     int last_position_x;
     int last_position_y;
-protected:
-    void random_location_born(int &new_x,int &new_y,Body &other);
-    void back_move();
+    bool random_location_born(int &new_x,int &new_y,Body &other);
     void setLastPositionX(int lastPositionX);
     void setLastPositionY(int lastPositionY);
     int getLastPositionX() const;
     int getLastPositionY() const;
+    void born(Body *attacker);
+protected:
     void draw_news(int location) override;
-public:
-    Animal(World &world, int xLocation, int yLocation);
-    virtual bool repel_attack(Body &attacker)=0;
-    void move();
     virtual void action() override;
-    virtual void collision(Body &other) override;
+    virtual void collision(Body *other) override;
+    virtual bool repel_attack(Body &attacker)=0;
+public:
+    void back_move() override;
+    Animal(World &world, int xLocation, int yLocation);
+    void move();
     virtual ~Animal() ;
 };
 

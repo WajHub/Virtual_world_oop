@@ -16,8 +16,8 @@ class World {
 private:
     std::list<Body*> bodies;
     char **map;
-    int x_size=30;
-    int y_size=20;
+    int x_size=3;
+    int y_size=3;
     int turn=1;
     int y_news=4;
     void print_menu_load_size();
@@ -36,6 +36,7 @@ public:
     void setYNews(int yNews);
     char **getMap();
     virtual ~World();
+    static void test_map(World &world);
 };
 
 

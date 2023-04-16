@@ -7,7 +7,6 @@
 #include <ctime>
 #include <iostream>
 #include "Wolf.h"
-#include <unistd.h>
 
 
 void Animal::action() {
@@ -20,7 +19,6 @@ void Animal::action() {
     int random;
     bool tmp = true;
     while (tmp) {
-        usleep(23057);
         random = (rand()+101+97*19)% 4 + 1;
         switch (random) {
             case 1:
@@ -55,9 +53,11 @@ void Animal::action() {
     setYLocation(new_y);
 }
 
+
 void Animal::back_move() {
     setXLocation(getLastPositionX());
     setYLocation(getLastPositionY());
+    getWorld().getMap()[getXLocation()-1][getYLocation()-1]=getMark();
 }
 
 void Animal::move() {
@@ -66,96 +66,98 @@ void Animal::move() {
     if(world.getMap()[getXLocation()-1][getYLocation()-1]!=' '){
         //Kolizja
         Body *tmp = world.get_body(getXLocation(),getYLocation());
-        collision(*tmp);
+        tmp->collision(this);
     }
     else{
         //wypisanie informacji [organizm](pozycja)
-        draw_news(getWorld().getYNews());
-        std::cout<<"-> Move to ("<<getXLocation()<<", "<<getYLocation()<<")";
-        world.setYNews(getWorld().getYNews()+1);
+        if(getWorld().getYNews()<10){
+            draw_news(getWorld().getYNews());
+            std::cout<<"-> Move to ("<<getXLocation()<<", "<<getYLocation()<<")";
+            world.setYNews(getWorld().getYNews()+1);
+        }
         world.getMap()[last_position_x-1][last_position_y-1]=' ';
         world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
     }
 }
 
-
-void Animal::random_location_born(int &new_x, int &new_y, Body &other) {
-//    World &world = getWorld();
-//    int free_space1=world.free_spaces(*this);
-//    int free_space2=world.free_spaces(other);
-//    if(free_space1 == 0 && free_space2==0){
-//        world.setYNews(world.getYNews()+1);
-//        //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
-//        std::cout<<"-> it's not able to gender (lack of space) ("<<getXLocation()<<", "<<getYLocation()<<")";
-//    }
-//    else if(free_space1 == 0){
-//        new_x=other.getXLocation();
-//        new_y=other.getYLocation();
-//        while(true){
-//            random_location(new_x,new_y,other.getXLocation(),other.getYLocation());
-//            if(world.getMap()[new_x-1][new_y-1]!=' ') break;
-//        }
-//    }
-//    else if(free_space2 == 0 ){
-//        new_x=this->getXLocation();
-//        new_y=this->getYLocation();
-//        while(true){
-//            random_location(new_x,new_y,this->getXLocation(),this->getYLocation());
-//            if(world.getMap()[new_x-1][new_y-1]!=' ') break;
-//        }
-//    }
-//        //Jesli obok obu zwierzat jest wolne miejsce, to losujemy zwierze, obok ktorego ma sie narodzic nowe
-//    else{
-//        srand(time(NULL));
-//        int random=rand()%2;
-//        if(random==0){
-//            while(true){
-//                new_x=other.getXLocation();
-//                new_y=other.getYLocation();
-//                random_location(new_x,new_y,other.getXLocation(),other.getYLocation());
-//                if(world.getMap()[new_x-1][new_y-1]!=' ') break;
-//            }
-//        }
-//        else{
-//            while(true){
-//                new_x=this->getXLocation();
-//                new_y=this->getYLocation();
-//                random_location(new_x,new_y,this->getXLocation(),this->getYLocation());
-//                if(world.getMap()[new_x-1][new_y-1]!=' ') break;
-//            }
-//        }
-//    }
+bool Animal::random_location_born(int &new_x, int &new_y, Body &other) {
+    World &world = getWorld();
+    int free_space1=world.free_spaces(*this);
+    int free_space2=world.free_spaces(other);
+    if(free_space1 == 0 && free_space2==0){
+        return false;
+    }
+    else if(free_space1 == 0){
+        new_x=other.getXLocation();
+        new_y=other.getYLocation();
+        while(true){
+            random_location(other,new_x,new_y);
+            if(world.getMap()[new_x-1][new_y-1]==' ') return true;
+        }
+    }
+    else if(free_space2 == 0 ){
+        new_x=this->getXLocation();
+        new_y=this->getYLocation();
+        while(true){
+            random_location(*this,new_x,new_y);
+            if(world.getMap()[new_x-1][new_y-1]==' ') return true;
+        }
+    }
+    else{
+        srand(time(NULL));
+        int random=rand()%2;
+        if(random==0){
+            while(true){
+                random_location(other,new_x,new_y);
+                if(world.getMap()[new_x-1][new_y-1]==' ') return true;
+            }
+        }
+        else{
+            while(true){
+                random_location(*this,new_x,new_y);
+                if(world.getMap()[new_x-1][new_y-1]==' ') return true;
+            }
+        }
+    }
 }
 
-
-void Animal::collision(Body &attacker) {
-    //BORN
-    if(attacker.getMark()==getMark()){
-        back_move();
+void Animal::born(Body *attacker) {
+    if(getAge()>0 && attacker->getAge()>0) {
+        int new_x;
+        int new_y;
+        if(random_location_born(new_x,new_y,*attacker)){
+            getWorld().add_body(*new Wolf(getWorld(),new_x,new_y));
+            if(getWorld().getYNews()<10){
+                draw_news(getWorld().getYNews());
+                std::cout<<"-> Born ("<<new_x<<", "<<new_y<<")";
+                getWorld().setYNews(getWorld().getYNews()+1);
+            }
+        }
+        else{
+            if(getWorld().getYNews()<10){
+                draw_news(getWorld().getYNews());
+                std::cout<<"-> it's not able to gender (lack of space) ("<<getXLocation()<<", "<<getYLocation()<<")";
+                getWorld().setYNews(getWorld().getYNews()+1);
+            }
+        }
     }
-    //ATTACK
+    else {
+        if(getWorld().getYNews()<10){
+            draw_news(getWorld().getYNews());
+            std::cout<<"-> it's not able to gender (too young) ("<<getXLocation()<<", "<<getYLocation()<<")";
+            getWorld().setYNews(getWorld().getYNews()+1);
+        }
+    }
+}
+
+void Animal::collision(Body *attacker) {
+    if(attacker->getMark()==getMark()){
+        attacker->back_move();
+        born(attacker);
+    }
     else{
 
     }
-//    if(getAge()>0 && other.getAge()>0){
-//        int new_x;
-//        int new_y;
-//        random_location_born(new_x,new_y,other);
-//        //Born
-//        switch(getMark()){
-//            case 'W':
-//                getWorld().add_body(*new Wolf(getWorld(),new_x,new_y));
-//                getWorld().setYNews(getWorld().getYNews()+1);
-//                std::cout<<"-> Born new Wolf ("<<new_x<<", "<<new_y<<")";
-//                break;
-//        }
-//    }
-//    //Nie dochodzi do rozmnazania z powodu za malego wieku ktoregos ze zwierzat
-//    else{
-//        getWorld().setYNews(getWorld().getYNews()+1);
-//        //gotoxy jest ustawione poprawnie po wykonaniu funckji draw_news()
-//        std::cout<<"-> it's not able to gender (too young) ("<<getXLocation()<<", "<<getYLocation()<<")";
-//    }
 }
 
 Animal::~Animal() {
@@ -188,6 +190,8 @@ void Animal::draw_news(int location) {
     gotoxy(0,location);
     std::cout<<getName()<<"["<<getMark()<<"]"<<"("<<getLastPositionX()<<", "<<getLastPositionY()<<")";
 }
+
+
 
 
 

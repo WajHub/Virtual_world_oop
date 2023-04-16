@@ -3,15 +3,19 @@
 
 int main() {
     World world;
-    world.add_body(*new Wolf(world,30,20));
-    world.add_body(*new Wolf(world,1,19));
+    system("cls");
+    world.add_body(*new Wolf(world,2,2));
+    world.add_body(*new Wolf(world,2,1));
     char c;
     while(true){
-        world.draw_border();
         world.make_turn();
         world.draw_world();
         c=getch();
+        if(c=='w'){
+            c='a';
+        }
         if(c=='q') break;
+        system("cls");
     }
     c='a';
     return 0;

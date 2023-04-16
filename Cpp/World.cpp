@@ -50,6 +50,7 @@ void World::load_size() {
         }
         ch=getch();
         switch (ch){
+            // sprawdzamy czy zmienic polozenie strzalki ->
             case 72:
                 if(loading_x_size) loading_x_size=false;
                 else loading_x_size=true;
@@ -63,8 +64,8 @@ void World::load_size() {
                 else if(y_size>4) y_size--;
                 break;
             case 77:
-                if(loading_x_size) x_size++;
-                else y_size++;
+                if(loading_x_size && x_size<50) x_size++;
+                else if(y_size<50) y_size++;
                 break;
         }
     }
@@ -78,7 +79,6 @@ void World::load_size() {
 }
 
 void World::draw_border() {
-    system("cls");
     gotoxy(0,1);
     std::cout<<"Welcome in your virtual world! (Hubert Wajda 193511)"<<char(179)<<" Turn game:"<<turn;
     for(int i=1;i<=x_size;i++){
@@ -107,18 +107,20 @@ void World::draw_border() {
 }
 
 void World::draw_world() {
+    draw_border();
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         (*it)->draw();
     }
+    World::test_map(*this);
 }
 
 void World::make_turn() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         if((*it)->isAbleToAction()){
+            (*it)->incrementAge();
             (*it)->move();
-            (*it)->setAge((*it)->getAge()+1);
         }
         else (*it)->setAbleToAction(true);
     }
@@ -150,6 +152,7 @@ void World::add_body(Body &body) {
     for (it = bodies.begin(); it != bodies.end(); ++it){
         if((*it)->getInitiative()<body.getInitiative()){
             bodies.insert(it,1,&body);
+            map[body.getXLocation()-1][body.getYLocation()-1]=body.getMark();
             return ;
         }
         //Gdy maja taka sama inicjatywe
@@ -188,24 +191,33 @@ int World::free_spaces(Body &body) {
     int x=body.getXLocation();
     int y=body.getYLocation();
     if(x==1){
-        if(map[x][y-1]!=' ') result++;
+        if(map[0][y-1]==' ') result++;
     }
     else if(x==x_size){
-        if(map[x-2][y-1]!=' ') result++;
+        if(map[x-2][y-1]==' ') result++;
     }
     else{
-        if(map[x][y-1]!=' ') result++;
-        if(map[x-2][y-1]!=' ') result++;
+        if(map[x][y-1]==' ') result++;
+        if(map[x-2][y-1]==' ') result++;
     }
     if(y==1){
-        if(map[x-1][y]!=' ') result++;
+        if(map[x-1][0]==' ') result++;
     }
     else if(y==y_size){
-        if(map[x-1][y-2]!=' ') result++;
+        if(map[x-1][y-2]==' ') result++;
     }
     else{
-        if(map[x-1][y]!=' ') result++;
-        if(map[x-1][y-2]!=' ') result++;
+        if(map[x-1][y]==' ') result++;
+        if(map[x-1][y-2]==' ') result++;
     }
     return result;
+}
+
+void World::test_map(World &world) {
+    for(int i=0;i<world.getXSize();i++){
+        for(int j=0;j<world.getYSize();j++){
+            gotoxy(SITE_X+world.getXSize()+5+i,SITE_Y+1+j);
+            std::cout<<world.getMap()[i][j];
+        }
+    }
 }
