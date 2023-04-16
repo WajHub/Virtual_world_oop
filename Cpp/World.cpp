@@ -117,7 +117,7 @@ void World::make_turn() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         if((*it)->isAbleToAction()){
-            (*it)->action();
+            (*it)->move();
             (*it)->setAge((*it)->getAge()+1);
         }
         else (*it)->setAbleToAction(true);

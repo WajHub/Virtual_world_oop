@@ -24,10 +24,11 @@ private:
     World &world;
 public:
     Body(World &world, int xLocation, int yLocation);
+    virtual void move() =0;
     virtual void action () = 0;
     virtual void collision(Body &other) = 0;
+    virtual void draw_news(int location);
     void draw();
-    void draw_news(int location);
     int getXLocation() const;
     int getYLocation() const;
     void setXLocation(int xLocation);

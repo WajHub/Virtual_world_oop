@@ -4,7 +4,7 @@
 int main() {
     World world;
     world.add_body(*new Wolf(world,30,20));
-    world.add_body(*new Wolf(world,29,20));
+    world.add_body(*new Wolf(world,1,19));
     char c;
     while(true){
         world.draw_border();
