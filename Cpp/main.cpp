@@ -5,8 +5,10 @@
 int main() {
     World world;
     world.add_body(*new Wolf(world,2,2));
+    world.add_body(*new Wolf(world,2,1));
     world.add_body(*new Sheep(world,2,3));
     char c;
+
     while(true){
         world.make_turn();
         world.draw_world();

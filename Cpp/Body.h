@@ -21,6 +21,7 @@ private:
     int x_location;
     int y_location;
     bool able_to_action=false;
+    bool alive=true;
     World &world;
 protected:
     virtual void action () = 0;
@@ -32,6 +33,9 @@ protected:
     void setInitiative(int initiative);
     void random_location(Body &body, int &new_x, int &new_y);
 public:
+    void setAlive(bool alive);
+
+    bool isAlive() const;
     const std::string &getName() const;
     void setName(const std::string &name);
     int getPower() const;

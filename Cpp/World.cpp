@@ -67,7 +67,7 @@ void World::load_size() {
                 break;
             case 77:
                 if(loading_x_size && x_size<50) x_size++;
-                else if(y_size<50) y_size++;
+                else if(y_size<23) y_size++;
                 break;
         }
     }
@@ -116,7 +116,7 @@ void World::draw_world() {
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         (*it)->draw();
     }
-//    World::test_map(*this);
+    World::test_map(*this);
 }
 
 void World::make_turn() {
@@ -125,6 +125,10 @@ void World::make_turn() {
         if((*it)->isAbleToAction()){
             (*it)->incrementAge();
             (*it)->move();
+            if(!(*it)->isAlive()){
+                delete *it;
+                it = bodies.erase(it);
+            }
         }
         else (*it)->setAbleToAction(true);
     }
@@ -172,6 +176,11 @@ void World::delete_body(Body *body) {
     map[body->getXLocation()-1][body->getYLocation()-1]=' ';
     bodies.remove(body);
     delete body;
+}
+//Usuniecie organizmu, ktory teraz wykonuje ruch (Problem z usunieciem iteratora podczas iterowania po petli w funkcji make_turn)
+void World::delete_body2(Body *body) {
+    map[body->getXLocation()-1][body->getYLocation()-1]=' ';
+    body->setAlive(false);
 }
 
 int World::getYNews()  {
@@ -231,5 +240,7 @@ void World::test_map(World &world) {
         }
     }
 }
+
+
 
 

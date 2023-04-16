@@ -17,7 +17,7 @@ Wolf::Wolf(World &world, int xLocation, int yLocation)
 }
 
 Wolf::~Wolf() {
-    amount--;
+    Wolf::amount--;
 }
 
 bool Wolf::repel_attack(Body &attacker) {

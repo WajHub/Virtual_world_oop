@@ -3,12 +3,10 @@
 //
 
 #include "Animal.h"
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include "Wolf.h"
 #include "Sheep.h"
-
+#include <random>
 
 void Animal::action() {
     World &world = getWorld();
@@ -16,11 +14,15 @@ void Animal::action() {
     int y = getYLocation();
     int new_x=x;
     int new_y=y;
-    srand(time(NULL));
+    // Utwórz generator pseudolosowy z ziarnem pobranym z urządzenia losującego
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
+    std::uniform_int_distribution<> dis(0, 200);
     int random;
     bool tmp = true;
     while (tmp) {
-        random = (rand()+101+97*19)% 4 + 1;
+        random = dis(gen);
         switch (random) {
             case 1:
                 if (x < getWorld().getXSize()) {
@@ -71,6 +73,7 @@ void Animal::move() {
     if(world.getMap()[getXLocation()-1][getYLocation()-1]!=' '){
         //Kolizja
         this->back_move();
+        world.getMap()[getXLocation()-1][getYLocation()-1]=' ';
         Body *tmp = world.get_body(getLastPositionX(),getLastPositionY());
         this->back_move();
         tmp->collision(this);
@@ -156,22 +159,26 @@ void Animal::born(Body *attacker) {
 }
 
 void Animal::collision(Body *attacker) {
+    World &world= getWorld();
     if(attacker->getMark()==getMark()){
         attacker->back_move();
         born(attacker);
     }
     else{
         if(this->getPower()>attacker->getPower()){
-            draw_news("-> kill "+attacker->getName()+
+            draw_news("-> dead ("+attacker->getName()+
                       std::to_string(getXLocation())+", "+
                       std::to_string(getYLocation())+")");
-            getWorld().delete_body(attacker);
+            world.delete_body2(attacker);
+            world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
         }
         else{
-            draw_news("-> kill "+this->getName()+
+            draw_news("-> dead ("+this->getName()+
                       std::to_string(getXLocation())+", "+
                       std::to_string(getYLocation())+")");
-            getWorld().delete_body(this);
+            world.delete_body(this);
+            world.getMap()[attacker->getXLocation()-1][attacker->getYLocation()-1]=attacker->getMark();
+
         }
     }
 }

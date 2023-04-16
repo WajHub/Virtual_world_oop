@@ -16,7 +16,7 @@ class World {
 private:
     std::list<Body*> bodies;
     char **map;
-    int x_size=20;
+    int x_size=22;
     int y_size=20;
     int turn=1;
     int y_news=4;
@@ -29,6 +29,7 @@ public:
     void make_turn();
     void add_body(Body &body);
     void delete_body(Body *body);
+    void delete_body2(Body *body);
     int free_spaces(Body &body);
     Body* get_body(int x, int y);
     int getXSize() const;

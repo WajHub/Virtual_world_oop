@@ -139,3 +139,11 @@ void Body::random_location(Body &body,int &new_x, int &new_y) {
     }
 }
 
+bool Body::isAlive() const {
+    return alive;
+}
+
+void Body::setAlive(bool alive) {
+    Body::alive = alive;
+}
+
