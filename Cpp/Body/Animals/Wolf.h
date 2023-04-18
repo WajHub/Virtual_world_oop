@@ -11,9 +11,9 @@
 class Wolf: public Animal {
 private:
     static int amount;
+    bool repel_attack(Body &attacker) override;
 public:
     Wolf(World &world, int xLocation, int yLocation);
-    bool repel_attack(Body &attacker) override;
     static int getAmount_wolf();
     ~Wolf() override;
 };

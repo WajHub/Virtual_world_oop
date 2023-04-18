@@ -21,7 +21,7 @@ void Animal::action() {
     bool tmp = true;
     while (tmp) {
         random = dis(gen);
-        switch (random) {
+        switch (random%5+1) {
             case 1:
                 if (x < getWorld().getXSize()) {
                     new_x++;
@@ -68,18 +68,23 @@ void Animal::back_move() {
 void Animal::move() {
     World &world = getWorld();;
     action();
-    if(world.getMap()[getXLocation()-1][getYLocation()-1]!=' '){
-        //Kolizja
-        this->back_move();
-        world.getMap()[getXLocation()-1][getYLocation()-1]=' ';
-        Body *tmp = world.get_body(getLastPositionX(),getLastPositionY());
-        this->back_move();
-        tmp->collision(this);
+    if(changed_position()){
+        if(world.getMap()[getXLocation()-1][getYLocation()-1]!=' '){
+            //Kolizja
+            this->back_move();
+            world.getMap()[getXLocation()-1][getYLocation()-1]=' ';
+            Body *tmp = world.get_body(getLastPositionX(),getLastPositionY());
+            this->back_move();
+            tmp->collision(this);
+        }
+        else{
+            draw_news("-> Move to ("+std::to_string(getXLocation())+", "+std::to_string(getYLocation())+")");
+            world.getMap()[last_position_x-1][last_position_y-1]=' ';
+            world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
+        }
     }
     else{
-        draw_news("-> Move to ("+std::to_string(getXLocation())+", "+std::to_string(getYLocation())+")");
-        world.getMap()[last_position_x-1][last_position_y-1]=' ';
-        world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
+        draw_news("-> remains in place");
     }
 }
 
@@ -162,19 +167,29 @@ void Animal::collision(Body *attacker) {
     }
     else{
         if(this->getPower()>attacker->getPower()){
-            draw_news("-> dead ("+attacker->getName()+
+            draw_news("-> "+getName()+" kill "+attacker->getName()+" ("+
                       std::to_string(getXLocation())+", "+
                       std::to_string(getYLocation())+")");
             world.delete_body2(attacker);
             world.getMap()[getXLocation()-1][getYLocation()-1]=getMark();
         }
-        else{
-            draw_news("-> dead ("+this->getName()+
+        else if(!this->repel_attack(*attacker)){
+            draw_news("-> "+attacker->getName()+" kill "+this->getName()+" ("+
                       std::to_string(getXLocation())+", "+
                       std::to_string(getYLocation())+")");
             world.delete_body(this);
             world.getMap()[attacker->getXLocation()-1][attacker->getYLocation()-1]=attacker->getMark();
-
+        }
+        else{
+            // dynamiczne rzutowanie na  typ Animal
+            Animal *animalAttacker = dynamic_cast<Animal*>(attacker);
+            //jesli rzutowanie sie powiedzie
+            if(animalAttacker){
+                animalAttacker ->back_move();
+            }
+            draw_news("-> "+attacker->getName()+" come back "+" ("+
+                      std::to_string(getXLocation())+", "+
+                      std::to_string(getYLocation())+")");
         }
     }
 }
@@ -207,11 +222,16 @@ int Animal::getLastPositionY() const {
 
 void Animal::draw_news(std::string inf) {
     if(getWorld().getYNews()<30) {
-        gotoxy(0, getWorld().getYNews());
-        std::cout << getName() << "[" << getMark() << "]" << "(" << getLastPositionX() << ", "
+        gotoxy(4, getWorld().getYNews());
+        std::cout << "(" << getLastPositionX() << ", "
         << getLastPositionY() << ")" << inf;
         getWorld().setYNews(getWorld().getYNews() + 1);
     }
+}
+
+bool Animal::changed_position() {
+    if(getLastPositionX()!=getXLocation()||getLastPositionY()!=getYLocation()) return true;
+    return false;
 }
 
 

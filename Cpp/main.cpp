@@ -2,6 +2,9 @@
 #include "World.h"
 #include "Body/Animals/Wolf.h"
 #include "Body/Animals/Sheep.h"
+#include "Body/Animals/Fox.h"
+#include "Body/Animals/Turtle.h"
+#include "Body/Animals/Antelope.h"
 #include "Body/Plants/Grass.h"
 #include "Body/Plants/Guarana.h"
 #include "Body/Plants/Pine_hogweed.h"
@@ -24,8 +27,11 @@ int main() {
 //    world.add_body(*new Guarana(world,20,20));
 //    world.add_body(*new Sonchus(world,20,1));
 //    world.add_body(*new Sonchus(world,1,1));
-    world.add_body(*new Wolf(world,1,4));
-    world.add_body(*new Pine_hogweed(world,1,1));
+//    world.add_body(*new Fox(world,2,2));
+    world.add_body(*new Antelope(world,1,2));
+
+//    world.add_body(*new Wolf(world,1,1));
+//    world.add_body(*new Pine_hogweed(world,1,1));
 
 //    world.add_body(*new Wolf(world,2,2));
 //    world.add_body(*new Wolf(world,4,2));

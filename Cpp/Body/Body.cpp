@@ -12,6 +12,8 @@
 #include "Plants/Pine_hogweed.h"
 #include "Plants/Sonchus.h"
 #include "Plants/Wolfberries.h"
+#include "Animals/Fox.h"
+#include "Animals/Turtle.h"
 
 int Body::getXLocation() const {
     return x_location;
@@ -81,8 +83,8 @@ void Body::draw() {
 
 void Body::draw_news(std::string inf) {
     if(getWorld().getYNews()<30) {
-        gotoxy(0, getWorld().getYNews());
-        std::cout << name << "[" << mark << "]" << "(" << x_location << ", " << y_location << ")" << inf;
+        gotoxy(4, getWorld().getYNews());
+        std::cout << "(" << x_location << ", " << y_location << ")" << inf;
         getWorld().setYNews(getWorld().getYNews() + 1);
     }
 }
@@ -163,6 +165,12 @@ void Body::new_body(int x, int y) {
         case'S':
             getWorld().add_body(*new Sheep(getWorld(),x,y));
             break;
+        case'F':
+            getWorld().add_body(*new Fox(getWorld(),x,y));
+            break;
+        case'T':
+            getWorld().add_body(*new Turtle(getWorld(),x,y));
+            break;
 
         case'G':
             getWorld().add_body(*new Grass(getWorld(),x,y));
@@ -181,4 +189,6 @@ void Body::new_body(int x, int y) {
             break;
     }
 }
+
+
 

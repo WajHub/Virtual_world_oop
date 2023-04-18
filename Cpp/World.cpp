@@ -7,6 +7,8 @@
 #include "mygotoxy.h"
 #include "Body/Animals/Wolf.h"
 #include "Body/Animals/Sheep.h"
+#include "Body/Animals/Fox.h"
+#include "Body/Animals/Turtle.h"
 #include "Body/Plants/Grass.h"
 #include "Body/Plants/Guarana.h"
 #include "Body/Plants/Pine_hogweed.h"
@@ -113,6 +115,8 @@ void World::draw_border() {
     std::cout<<" LEGEND: "
     <<"W - Wolf ("<<Wolf::getAmount_wolf()<<") "
     <<"S - Sheep ("<<Sheep::getAmount_sheep()<<") "
+    <<"F - Fox ("<<Fox::getAmount_fox()<<") "
+    <<"T - Turtle ("<<Turtle::getAmount_turtle()<<") "
     <<std::endl<<"G - Grass ("<<Grass::getAmount_grass()<<") "
     <<"U - Guarana ("<<Guarana::getAmount_guarana()<<") "
     <<"P - Pine_hogweed ("<<Pine_hogweed::getAmount_Pine_hogweed()<<") "
@@ -135,11 +139,14 @@ void World::make_turn() {
     std::list<Body*>::iterator it;
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         if((*it)->isAbleToAction()){
+            gotoxy(0,y_news);
+            std::cout<<"["<<(*it)->getMark()<<"]";
             (*it)->incrementAge();
             (*it)->move();
             if(!(*it)->isAlive()){
                 delete *it;
                 it = bodies.erase(it);
+                it++;
             }
         }
         else (*it)->setAbleToAction(true);
