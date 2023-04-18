@@ -4,7 +4,7 @@
 
 #ifndef CPP_SHEEP_H
 #define CPP_SHEEP_H
-#include "Animal.h"
+#include "../Animal.h"
 #include "string"
 
 class Sheep : public Animal{

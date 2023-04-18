@@ -5,8 +5,13 @@
 #include "World.h"
 #include <iostream>
 #include "mygotoxy.h"
-#include "Wolf.h"
-#include "Sheep.h"
+#include "Body/Animals/Wolf.h"
+#include "Body/Animals/Sheep.h"
+#include "Body/Plants/Grass.h"
+#include "Body/Plants/Guarana.h"
+#include "Body/Plants/Pine_hogweed.h"
+#include "Body/Plants/Sonchus.h"
+#include "Body/Plants/Wolfberries.h"
 
 World::World() {
     load_size();
@@ -105,9 +110,16 @@ void World::draw_border() {
     gotoxy(SITE_X+x_size+1,SITE_Y+y_size+1);
     std::cout<<char(217);
     gotoxy(0,3);
-    std::cout<<char(25)<<"[NEWS]"<<char(25)<<"  "<<char(179)<<" LEGEND: "
+    std::cout<<" LEGEND: "
     <<"W - Wolf ("<<Wolf::getAmount_wolf()<<") "
-    <<"S - Sheep ("<<Sheep::getAmount_sheep()<<")";
+    <<"S - Sheep ("<<Sheep::getAmount_sheep()<<") "
+    <<std::endl<<"G - Grass ("<<Grass::getAmount_grass()<<") "
+    <<"U - Guarana ("<<Guarana::getAmount_guarana()<<") "
+    <<"P - Pine_hogweed ("<<Pine_hogweed::getAmount_Pine_hogweed()<<") "
+    <<"O - Sonchus ("<<Sonchus::getAmount_sonchus()<<") "
+    <<"B - Wolfberries ("<<Wolfberries::getAmount_Wolfberries()<<") ";
+    gotoxy(0,6);
+    std::cout<<char(25)<<"[NEWS]"<<char(25);
 }
 
 void World::draw_world() {
@@ -133,7 +145,7 @@ void World::make_turn() {
         else (*it)->setAbleToAction(true);
     }
     turn++;
-    y_news=4;
+    y_news=SITE_Y_NEWS;
 }
 
 World::~World() {
@@ -206,11 +218,11 @@ Body* World::get_body(int x, int y) {
 }
 
 int World::free_spaces(Body &body) {
-    int result =0;
+    int result = 0;
     int x=body.getXLocation();
     int y=body.getYLocation();
     if(x==1){
-        if(map[0][y-1]==' ') result++;
+        if(map[1][y-1]==' ') result++;
     }
     else if(x==x_size){
         if(map[x-2][y-1]==' ') result++;
@@ -220,7 +232,7 @@ int World::free_spaces(Body &body) {
         if(map[x-2][y-1]==' ') result++;
     }
     if(y==1){
-        if(map[x-1][0]==' ') result++;
+        if(map[x-1][1]==' ') result++;
     }
     else if(y==y_size){
         if(map[x-1][y-2]==' ') result++;
@@ -239,6 +251,26 @@ void World::test_map(World &world) {
             std::cout<<world.getMap()[i][j];
         }
     }
+}
+
+bool World::isAnimal(int x, int y) {
+    switch(map[x-1][y-1]){
+        case 'W':
+            return true;
+        case 'S':
+            return true;
+        case 'H':
+            return true;
+        case 'F':
+            return true;
+        case 'A':
+            return true;
+        case 'T':
+            return true;
+        default:
+            return false;
+    }
+
 }
 
 

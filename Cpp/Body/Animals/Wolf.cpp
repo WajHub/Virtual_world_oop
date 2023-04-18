@@ -9,7 +9,7 @@ int Wolf::amount = 0;
 
 Wolf::Wolf(World &world, int xLocation, int yLocation)
 : Animal(world, xLocation,yLocation) {
-    amount++;
+    Wolf::amount++;
     setName("Wolf");
     setMark('W');
     setInitiative(5);

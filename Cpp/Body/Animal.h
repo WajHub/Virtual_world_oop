@@ -4,7 +4,7 @@
 #pragma once
 #ifndef CPP_ANIMAL_H
 #define CPP_ANIMAL_H
-#include "World.h"
+#include "../World.h"
 #include "string"
 
 class Animal: public Body {
@@ -23,7 +23,7 @@ protected:
     virtual void collision(Body *other) override;
     virtual bool repel_attack(Body &attacker)=0;
 public:
-    void back_move() override;
+    void back_move();
     Animal(World &world, int xLocation, int yLocation);
     void move();
     virtual ~Animal() ;

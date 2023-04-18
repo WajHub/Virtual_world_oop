@@ -5,8 +5,8 @@
 #ifndef CPP_BODY_H
 #define CPP_BODY_H
 #include "string"
-#include "Const.h"
-#include "mygotoxy.h"
+#include "../Const.h"
+#include "../mygotoxy.h"
 
 class World;
 
@@ -24,22 +24,26 @@ private:
     bool alive=true;
     World &world;
 protected:
-    virtual void action () = 0;
-    World &getWorld() const;
     virtual void draw_news(std::string inf);
+    void random_location(Body &body, int &new_x, int &new_y);
+    virtual void action () = 0;
+
+    World &getWorld() const;
     void setAge(int age);
     void setMark(char mark);
-    void setPower(int power);
     void setInitiative(int initiative);
-    void random_location(Body &body, int &new_x, int &new_y);
 public:
-    void setAlive(bool alive);
+    void new_body(int x, int y);
+    virtual void collision(Body *other) = 0;
+    virtual void move() =0;
+    Body(World &world, int xLocation, int yLocation);
 
+    void setAlive(bool alive);
     bool isAlive() const;
     const std::string &getName() const;
+    void setPower(int power);
     void setName(const std::string &name);
     int getPower() const;
-    virtual void collision(Body *other) = 0;
     void setXLocation(int xLocation);
     void setYLocation(int yLocation);
     int getXLocation() const;
@@ -49,9 +53,6 @@ public:
     char getMark() const;
     int getAge() const;
     int getInitiative() const;
-    virtual void back_move()=0;
-    Body(World &world, int xLocation, int yLocation);
-    virtual void move() =0;
     bool isAbleToAction() const;
     //organizm jest zdolny do ruchu jedna tura po jego utworzeniu
     void setAbleToAction(bool ableToAction);

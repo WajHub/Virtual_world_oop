@@ -5,7 +5,7 @@
 #ifndef CPP_WOLF_H
 #define CPP_WOLF_H
 
-#include "Animal.h"
+#include "../Animal.h"
 #include "string"
 
 class Wolf: public Animal {

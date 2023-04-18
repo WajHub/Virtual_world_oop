@@ -4,8 +4,6 @@
 
 #include "Animal.h"
 #include <iostream>
-#include "Wolf.h"
-#include "Sheep.h"
 #include <random>
 
 void Animal::action() {
@@ -127,18 +125,11 @@ bool Animal::random_location_born(int &new_x, int &new_y, Body &other) {
 }
 
 void Animal::born(Body *attacker) {
-    if(getAge()>0 && attacker->getAge()>0) {
+    if(getAge()>3 && attacker->getAge()>3) {
         int new_x;
         int new_y;
         if(random_location_born(new_x,new_y,*attacker)){
-            switch(getMark()){
-                case'W':
-                    getWorld().add_body(*new Wolf(getWorld(),new_x,new_y));
-                    break;
-                case'S':
-                    getWorld().add_body(*new Sheep(getWorld(),new_x,new_y));
-                    break;
-            }
+            new_body(new_x,new_y);
             draw_news("-> Born ("+
                                             std::to_string(new_x)+", "+
                                             std::to_string(new_y)+")");
@@ -161,7 +152,12 @@ void Animal::born(Body *attacker) {
 void Animal::collision(Body *attacker) {
     World &world= getWorld();
     if(attacker->getMark()==getMark()){
-        attacker->back_move();
+        // dynamiczne rzutowanie na  typ Animal
+        Animal *animalAttacker = dynamic_cast<Animal*>(attacker);
+        //jesli rzutowanie sie powiedzie
+        if(animalAttacker){
+            animalAttacker ->back_move();
+        }
         born(attacker);
     }
     else{
@@ -210,13 +206,15 @@ int Animal::getLastPositionY() const {
 }
 
 void Animal::draw_news(std::string inf) {
-    if(getWorld().getYNews()<30){
-        gotoxy(0,getWorld().getYNews());
-        std::cout<<getName()<<"["<<getMark()<<"]"<<"("<<getLastPositionX()<<", "<<getLastPositionY()<<")"<<inf;
-        getWorld().setYNews(getWorld().getYNews()+1);
+    if(getWorld().getYNews()<30) {
+        gotoxy(0, getWorld().getYNews());
+        std::cout << getName() << "[" << getMark() << "]" << "(" << getLastPositionX() << ", "
+        << getLastPositionY() << ")" << inf;
+        getWorld().setYNews(getWorld().getYNews() + 1);
     }
-
 }
+
+
 
 
 

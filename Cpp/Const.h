@@ -7,6 +7,7 @@
 
 #define SITE_X 70
 #define SITE_Y 5
+#define SITE_Y_NEWS 7
 
 
 #endif //CPP_CONST_H

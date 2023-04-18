@@ -4,8 +4,14 @@
 
 #include "Body.h"
 #include <iostream>
-#include "World.h"
-
+#include "../World.h"
+#include "Animals/Wolf.h"
+#include "Animals/Sheep.h"
+#include "Plants/Grass.h"
+#include "Plants/Guarana.h"
+#include "Plants/Pine_hogweed.h"
+#include "Plants/Sonchus.h"
+#include "Plants/Wolfberries.h"
 
 int Body::getXLocation() const {
     return x_location;
@@ -74,9 +80,11 @@ void Body::draw() {
 }
 
 void Body::draw_news(std::string inf) {
-    gotoxy(0,getWorld().getYNews());
-    std::cout<<name<<"["<<mark<<"]"<<"("<<x_location<<", "<<y_location<<")";
-    getWorld().setYNews(getWorld().getYNews()+1);
+    if(getWorld().getYNews()<30) {
+        gotoxy(0, getWorld().getYNews());
+        std::cout << name << "[" << mark << "]" << "(" << x_location << ", " << y_location << ")" << inf;
+        getWorld().setYNews(getWorld().getYNews() + 1);
+    }
 }
 
 bool Body::isAbleToAction() const {
@@ -145,5 +153,32 @@ bool Body::isAlive() const {
 
 void Body::setAlive(bool alive) {
     Body::alive = alive;
+}
+
+void Body::new_body(int x, int y) {
+    switch(mark){
+        case'W':
+            getWorld().add_body(*new Wolf(getWorld(),x,y));
+            break;
+        case'S':
+            getWorld().add_body(*new Sheep(getWorld(),x,y));
+            break;
+
+        case'G':
+            getWorld().add_body(*new Grass(getWorld(),x,y));
+            break;
+        case'U':
+            getWorld().add_body(*new Guarana(getWorld(),x,y));
+            break;
+        case'P':
+            getWorld().add_body(*new Pine_hogweed(getWorld(),x,y));
+            break;
+        case'O':
+            getWorld().add_body(*new Sonchus(getWorld(),x,y));
+            break;
+        case'B':
+            getWorld().add_body(*new Wolfberries(getWorld(),x,y));
+            break;
+    }
 }
 

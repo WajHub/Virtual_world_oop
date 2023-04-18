@@ -5,7 +5,7 @@
 #ifndef VIRTUAL_WORLD_WORLD_H
 #define VIRTUAL_WORLD_WORLD_H
 #include <list>
-#include "Body.h"
+#include "Body/Body.h"
 #include "Const.h"
 #include <conio.h>
 #include "mygotoxy.h"
@@ -16,10 +16,10 @@ class World {
 private:
     std::list<Body*> bodies;
     char **map;
-    int x_size=22;
-    int y_size=20;
+    int x_size=5;
+    int y_size=5;
     int turn=1;
-    int y_news=4;
+    int y_news=SITE_Y_NEWS ;
     void print_menu_load_size();
     void load_size();
 public:
@@ -31,6 +31,7 @@ public:
     void delete_body(Body *body);
     void delete_body2(Body *body);
     int free_spaces(Body &body);
+    bool isAnimal(int x, int y);
     Body* get_body(int x, int y);
     int getXSize() const;
     int getYSize() const;
