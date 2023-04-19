@@ -28,13 +28,14 @@ int main() {
 //    world.add_body(*new Sonchus(world,20,1));
 //    world.add_body(*new Sonchus(world,1,1));
 //    world.add_body(*new Fox(world,2,2));
-    world.add_body(*new Antelope(world,1,2));
+//    world.add_body(*new Antelope(world,1,2));
 
 //    world.add_body(*new Wolf(world,1,1));
 //    world.add_body(*new Pine_hogweed(world,1,1));
 
 //    world.add_body(*new Wolf(world,2,2));
-//    world.add_body(*new Wolf(world,4,2));
+    world.add_body(*new Antelope(world,1,2));
+
 //        world.add_body(*new Sonchus(world,1,1));
     char c;
 

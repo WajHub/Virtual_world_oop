@@ -40,38 +40,8 @@ void Turtle::action() {
     // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
     std::uniform_int_distribution<> dis(0, 200);
     int random=dis(gen);
-    bool tmp = true;
     if(random%100<25){
-        while (tmp) {
-            random = dis(gen);
-            switch (random%5+1) {
-                case 1:
-                    if (x < getWorld().getXSize()) {
-                        new_x++;
-                        tmp=false;
-                    }
-                    break;
-                case 2:
-                    if (x > 1) {
-                        new_x--;
-                        tmp = false;
-                    }
-                    break;
-                case 3:
-                    if (y < getWorld().getYSize()) {
-                        new_y++;
-                        tmp = false;
-                    }
-                    break;
-                case 4:
-                    if (y > 1) {
-                        new_y--;
-                        tmp = false;
-                    }
-                    break;
-            }
-        }
-
+        random_location( new_x, new_y);
     }
     setLastPositionX(x);
     setLastPositionY(y);

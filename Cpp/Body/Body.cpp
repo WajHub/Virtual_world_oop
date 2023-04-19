@@ -14,6 +14,7 @@
 #include "Plants/Wolfberries.h"
 #include "Animals/Fox.h"
 #include "Animals/Turtle.h"
+#include <random>
 
 int Body::getXLocation() const {
     return x_location;
@@ -109,17 +110,21 @@ void Body::incrementAge() {
  Body::age++;
 }
 
-void Body::random_location(Body &body,int &new_x, int &new_y) {
+void Body::random_location_new_body(Body &body, int &new_x, int &new_y) {
     World &world = getWorld();
     int x =body.getXLocation();
     int y = body.getYLocation();
     new_x=x;
     new_y=y;
-    srand(time(NULL));
+    // Utwórz generator pseudolosowy z ziarnem pobranym z urządzenia losującego
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
+    std::uniform_int_distribution<> dis(0, 200);
     int random;
     bool tmp = true;
     while (tmp) {
-        random = (rand()+101+97*19)% 4 + 1;
+        random = dis(gen)%4+1;
         switch (random) {
             case 1:
                 if (x < world.getXSize() && getWorld().getMap()[x][y-1]==' ') {
@@ -141,6 +146,50 @@ void Body::random_location(Body &body,int &new_x, int &new_y) {
                 break;
             case 4:
                 if (y > 1 && getWorld().getMap()[x-1][y-2]==' ') {
+                    new_y--;
+                    tmp = false;
+                }
+                break;
+        }
+    }
+}
+
+void Body::random_location(int &new_x, int &new_y) {
+    World &world = getWorld();
+    int x =getXLocation();
+    int y = getYLocation();
+    new_x=x;
+    new_y=y;
+    // Utwórz generator pseudolosowy z ziarnem pobranym z urządzenia losującego
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
+    std::uniform_int_distribution<> dis(0, 200);
+    int random;
+    bool tmp = true;
+    while (tmp) {
+        random = dis(gen)%4+1;
+        switch (random) {
+            case 1:
+                if (x < world.getXSize() ) {
+                    new_x++;
+                    tmp=false;
+                }
+                break;
+            case 2:
+                if (x > 1 ) {
+                    new_x--;
+                    tmp = false;
+                }
+                break;
+            case 3:
+                if (y < getWorld().getYSize() ) {
+                    new_y++;
+                    tmp = false;
+                }
+                break;
+            case 4:
+                if (y > 1) {
                     new_y--;
                     tmp = false;
                 }

@@ -25,7 +25,8 @@ private:
     World &world;
 protected:
     virtual void draw_news(std::string inf);
-    void random_location(Body &body, int &new_x, int &new_y);
+    void random_location_new_body(Body &body, int &new_x, int &new_y);
+    void random_location(int &new_x, int &new_y);
     virtual void action () = 0;
 
     World &getWorld() const;
