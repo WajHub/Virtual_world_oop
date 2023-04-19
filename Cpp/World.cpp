@@ -9,6 +9,7 @@
 #include "Body/Animals/Sheep.h"
 #include "Body/Animals/Fox.h"
 #include "Body/Animals/Turtle.h"
+#include "Body/Animals/Human.h"
 #include "Body/Plants/Grass.h"
 #include "Body/Plants/Guarana.h"
 #include "Body/Plants/Pine_hogweed.h"
@@ -17,7 +18,6 @@
 
 World::World() {
     load_size();
-    system("cls");
 }
 
 void World::print_menu_load_size() {
@@ -60,19 +60,19 @@ void World::load_size() {
         ch=getch();
         switch (ch){
             // sprawdzamy czy zmienic polozenie strzalki ->
-            case 72:
+            case DOWN_ARROW:
                 if(loading_x_size) loading_x_size=false;
                 else loading_x_size=true;
                 break;
-            case 80:
+            case UP_ARROW:
                 if(loading_x_size) loading_x_size=false;
                 else loading_x_size=true;
                 break;
-            case 75:
+            case LEFT_ARROW:
                 if(loading_x_size && x_size > 4) x_size--;
                 else if(y_size>4) y_size--;
                 break;
-            case 77:
+            case RIGHT_ARROW:
                 if(loading_x_size && x_size<50) x_size++;
                 else if(y_size<23) y_size++;
                 break;
@@ -85,6 +85,7 @@ void World::load_size() {
             map[i][j] = ' ';
         }
     }
+    system("cls");
 }
 
 void World::draw_border() {
@@ -117,6 +118,7 @@ void World::draw_border() {
     <<"S - Sheep ("<<Sheep::getAmount_sheep()<<") "
     <<"F - Fox ("<<Fox::getAmount_fox()<<") "
     <<"T - Turtle ("<<Turtle::getAmount_turtle()<<") "
+    <<"H - Human ("<<human_is_alive<<") Active special skill ("<<human_special_skill_is_active<<") "
     <<std::endl<<"G - Grass ("<<Grass::getAmount_grass()<<") "
     <<"U - Guarana ("<<Guarana::getAmount_guarana()<<") "
     <<"P - Pine_hogweed ("<<Pine_hogweed::getAmount_Pine_hogweed()<<") "
@@ -134,6 +136,27 @@ void World::draw_world() {
     }
     World::test_map(*this);
 }
+
+void World::human_special_skill() {
+    if(human_is_alive && human_special_skill_is_active){
+        Human* human;
+        std::list<Body*>::iterator it;
+        for (it = bodies.begin(); it != bodies.end(); ++it) {
+            human = dynamic_cast<Human *>((*it));
+            if(human){
+                if(human->getAdditionalPower()>0){
+                    human->setAdditionalPower(human->getAdditionalPower()-1);
+                    human->setPower(human->getPower()+human->getAdditionalPower());
+                    break;
+                }
+                else{
+                    human_special_skill_is_active=false;
+                }
+            }
+        }
+    }
+}
+
 
 void World::make_turn() {
     std::list<Body*>::iterator it;
@@ -153,6 +176,7 @@ void World::make_turn() {
     }
     turn++;
     y_news=SITE_Y_NEWS;
+    human_special_skill();
 }
 
 World::~World() {
@@ -279,6 +303,62 @@ bool World::isAnimal(int x, int y) {
     }
 
 }
+
+void World::setOrder(char order) {
+    World::order = order;
+}
+
+char World::getOrder() const {
+    return order;
+}
+
+bool World::isHumanIsAlive() const {
+    return human_is_alive;
+}
+
+void World::setHumanIsAlive(bool humanIsAlive) {
+    human_is_alive = humanIsAlive;
+}
+
+bool World::order_is_correct() {
+    if(human_is_alive){
+        Human* human;
+        std::list<Body*>::iterator it;
+        for (it = bodies.begin(); it != bodies.end(); ++it) {
+            human = dynamic_cast<Human*>((*it));
+            if(human){
+                switch (order) {
+                    case LEFT_ARROW:
+                        if(human->getXLocation()>1) return true;
+                        return false;
+                    case RIGHT_ARROW:
+                        if(human->getXLocation()<x_size) return true;
+                        return false;
+                    case UP_ARROW:
+                        if(human->getYLocation()>1) return true;
+                        return false;
+                    case DOWN_ARROW:
+                        if(human->getYLocation()<y_size) return true;
+                        return false;
+                     //specjalna umiejetnosc czlowieka "1"
+                    case 49:
+                        if(human->can_use_special_skill()){
+                            human_special_skill_is_active=true;
+                            human->setAdditionalPower(5);
+                            human->setPower(human->getPower()+human->getAdditionalPower());
+                            human->draw_news("Human use special skill!!!");
+                            human->setAgeWhenUsedSpecialSkill(human->getAge());
+                        }
+                    default:
+                        return false;
+                }
+            }
+        }
+
+    }
+    return true;
+}
+
 
 
 
