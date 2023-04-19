@@ -110,7 +110,7 @@ void Body::incrementAge() {
  Body::age++;
 }
 
-void Body::random_location_new_body(Body &body, int &new_x, int &new_y) {
+void Body::random_location_empty(Body &body, int &new_x, int &new_y) {
     World &world = getWorld();
     int x =body.getXLocation();
     int y = body.getYLocation();

@@ -39,7 +39,7 @@ void Sonchus::action() {
             if (free_space > 0) {
                 int new_x;
                 int new_y;
-                random_location_new_body(*this, new_x, new_y);
+                random_location_empty(*this, new_x, new_y);
                 new_body(new_x, new_y);
                 draw_news("-> new plant " + getName() + " (" +
                           std::to_string(new_x) + ", " +

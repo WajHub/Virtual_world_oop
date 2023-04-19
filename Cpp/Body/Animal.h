@@ -20,12 +20,12 @@ protected:
     void setLastPositionY(int lastPositionY);
     int getLastPositionX() const;
     int getLastPositionY() const;
-    void draw_news(std::string inf) override;
+
     virtual void action() override;
     virtual void collision(Body *other) override;
     virtual bool repel_attack(Body &attacker)=0;
 public:
-
+    void draw_news(std::string inf) override;
     Animal(World &world, int xLocation, int yLocation);
     void move();
     virtual ~Animal() ;

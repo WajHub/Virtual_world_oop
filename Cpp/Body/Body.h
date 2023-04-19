@@ -24,8 +24,8 @@ private:
     bool alive=true;
     World &world;
 protected:
-    virtual void draw_news(std::string inf);
-    void random_location_new_body(Body &body, int &new_x, int &new_y);
+
+    void random_location_empty(Body &body, int &new_x, int &new_y);
     void random_location(int &new_x, int &new_y);
     virtual void action () = 0;
 
@@ -34,6 +34,7 @@ protected:
     void setMark(char mark);
     void setInitiative(int initiative);
 public:
+    virtual void draw_news(std::string inf);
     void new_body(int x, int y);
     virtual void collision(Body *other) = 0;
     virtual void move() =0;

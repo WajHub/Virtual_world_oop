@@ -4,6 +4,8 @@
 
 #include <random>
 #include "Antelope.h"
+
+
 int Antelope::amount=0;
 
 bool Antelope::repel_attack(Body &attacker) {
@@ -46,5 +48,26 @@ Antelope::~Antelope() {
 }
 
 void Antelope::collision(Body *other) {
-
+    // Utwórz generator pseudolosowy z ziarnem pobranym z urządzenia losującego
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // Ustaw przedział generowania liczb pseudolosowych na [0, 199]
+    std::uniform_int_distribution<> dis(0, 199);
+    int random=dis(gen);
+    if(random%2==0|| getWorld().free_spaces(*this)==0){
+        Animal::collision(other);
+    }
+    else{
+        int new_x;
+        int new_y;
+        random_location_empty(*this,new_x,new_y);
+        other->draw_news("-> Move to ("+std::to_string(getXLocation())+", "+std::to_string(getYLocation())+")");
+        getWorld().getMap()[getXLocation()-1][getYLocation()-1]=other->getMark();
+        setLastPositionX(getXLocation());
+        setLastPositionY(getYLocation());
+        setXLocation(new_x);
+        setYLocation(new_y);
+        other->draw_news("-> Run away to ("+std::to_string(getXLocation())+", "+std::to_string(getYLocation())+")");
+        getWorld().getMap()[getXLocation()-1][getYLocation()-1]=getMark();
+    }
 }

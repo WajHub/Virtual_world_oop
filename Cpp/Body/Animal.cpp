@@ -4,7 +4,6 @@
 
 #include "Animal.h"
 #include <iostream>
-#include <random>
 
 void Animal::action() {
     int x =getXLocation();
@@ -63,7 +62,7 @@ bool Animal::random_location_born(int &new_x, int &new_y, Body &other) {
         new_x=other.getXLocation();
         new_y=other.getYLocation();
         while(true){
-            random_location_new_body(other, new_x, new_y);
+            random_location_empty(other, new_x, new_y);
             if(world.getMap()[new_x-1][new_y-1]==' ') return true;
         }
     }
@@ -71,7 +70,7 @@ bool Animal::random_location_born(int &new_x, int &new_y, Body &other) {
         new_x=this->getXLocation();
         new_y=this->getYLocation();
         while(true){
-            random_location_new_body(*this, new_x, new_y);
+            random_location_empty(*this, new_x, new_y);
             if(world.getMap()[new_x-1][new_y-1]==' ') return true;
         }
     }
@@ -80,13 +79,13 @@ bool Animal::random_location_born(int &new_x, int &new_y, Body &other) {
         int random=rand()%2;
         if(random==0){
             while(true){
-                random_location_new_body(other, new_x, new_y);
+                random_location_empty(other, new_x, new_y);
                 if(world.getMap()[new_x-1][new_y-1]==' ') return true;
             }
         }
         else{
             while(true){
-                random_location_new_body(*this, new_x, new_y);
+                random_location_empty(*this, new_x, new_y);
                 if(world.getMap()[new_x-1][new_y-1]==' ') return true;
             }
         }
