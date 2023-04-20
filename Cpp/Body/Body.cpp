@@ -83,7 +83,7 @@ void Body::draw() {
 }
 
 void Body::draw_news(std::string inf) {
-    if(getWorld().getYNews()<30) {
+    if(getWorld().getYNews()<MAX_NEWS) {
         gotoxy(4, getWorld().getYNews());
         std::cout << "(" << x_location << ", " << y_location << ")" << inf;
         getWorld().setYNews(getWorld().getYNews() + 1);

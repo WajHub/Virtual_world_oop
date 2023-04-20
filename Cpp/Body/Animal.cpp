@@ -184,7 +184,7 @@ int Animal::getLastPositionY() const {
 }
 
 void Animal::draw_news(std::string inf) {
-    if(getWorld().getYNews()<30) {
+    if(getWorld().getYNews()<MAX_NEWS) {
         gotoxy(4, getWorld().getYNews());
         std::cout << "(" << getLastPositionX() << ", "
         << getLastPositionY() << ")" << inf;

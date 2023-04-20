@@ -40,7 +40,7 @@ void Plant::action() {
     // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
     std::uniform_int_distribution<> dis(0, 200);
     int random = dis(gen);
-    if(random%100<11){
+    if(random%100<7){
         int free_space = getWorld().free_spaces(*this);
         if(free_space>0){
             int new_x;

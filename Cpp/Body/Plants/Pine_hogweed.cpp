@@ -30,8 +30,8 @@ void Pine_hogweed::collision(Body *attacker) {
               std::to_string(getXLocation())+", "+
               std::to_string(getYLocation())+") and moments later dies");
     world.delete_body2(attacker);
-    world.delete_body(this);
     world.getMap()[getXLocation()-1][getYLocation()-1]=' ';
+    world.delete_body(this);
 }
 
 void Pine_hogweed::action() {
@@ -41,7 +41,7 @@ void Pine_hogweed::action() {
     // Ustaw przedział generowania liczb pseudolosowych na [0, 200]
     std::uniform_int_distribution<> dis(0, 200);
     int random = dis(gen);
-    if (random % 100 < 2) {
+    if (random % 100 < 1) {
         int free_space = getWorld().free_spaces(*this);
         if (free_space > 0) {
             int new_x;

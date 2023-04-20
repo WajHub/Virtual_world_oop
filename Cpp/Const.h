@@ -8,6 +8,7 @@
 #define SITE_X 70
 #define SITE_Y 5
 #define SITE_Y_NEWS 7
+#define MAX_NEWS 30
 #define LEFT_ARROW  75
 #define RIGHT_ARROW  77
 #define UP_ARROW  72

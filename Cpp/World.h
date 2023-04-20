@@ -15,9 +15,9 @@ class World {
 private:
     std::list<Body*> bodies;
     char **map;
-    int x_size=3;
-    int y_size=3;
-    int turn=1;
+    int x_size=10;
+    int y_size=10;
+    int turn=0;
     int y_news=SITE_Y_NEWS;
     int order=' ';
     bool human_is_alive=false;
@@ -25,8 +25,11 @@ private:
     void print_menu_load_size();
     void load_size();
     void human_special_skill();
+    void print_objects(int number_obj[10]);
+    void create_objects(int number_obj[10]);
 public:
     World();
+    void new_game();
     void draw_border();
     void draw_world();
     void make_turn();

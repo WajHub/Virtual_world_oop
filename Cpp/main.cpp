@@ -16,9 +16,7 @@
 int main() {
     ShowConsoleCursor(false);
     World world;
-    world.add_body(*new Human(world,2,2));
-    world.add_body(*new Wolf(world,1,2));
-    int ch;
+    world.new_game();
     while(world.getOrder()!='q'){
         world.make_turn();
         world.draw_world();
