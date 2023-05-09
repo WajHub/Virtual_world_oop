@@ -4,8 +4,9 @@ import javax.swing.*;
 
 
 public class WorldFrame extends JFrame {
-    final static public int  SCREEN_HEIGHT=600;
-    final static public int SCREEN_WIDTH=800;
+    final static public int FREE_SPACE=10;
+    final static public int  SCREEN_HEIGHT=800;
+    final static public int SCREEN_WIDTH=1000;
     static public int UNIT_SIZE=25;
     public WorldFrame(){
         this.setTitle("Virtual World");

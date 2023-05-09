@@ -10,5 +10,8 @@ public class WorldPanel extends JPanel{
         this.setFocusable(true);
         this.setBackground(Color.gray);
         this.setPreferredSize(new Dimension(WorldFrame.SCREEN_WIDTH, WorldFrame.SCREEN_HEIGHT));
+        this.setLayout(null);
+        this.add(new LegendPanel());
+        this.add(new MenuPanel());
     }
 }

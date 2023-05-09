@@ -76,7 +76,9 @@ public class World {
     }
 
     void start_game() {
-        BoardPanel board_panel = new BoardPanel();
-        panel.add(board_panel, BorderLayout.CENTER);
+        board_panel = new BoardPanel();
+        panel.add(board_panel);
+        SwingUtilities.updateComponentTreeUI(frame); // odświeżanie wyglądu interfejsu
+        frame.requestFocusInWindow();
     }
 }
