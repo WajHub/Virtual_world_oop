@@ -1,3 +1,4 @@
+import GUI.BoardPanel;
 import GUI.WorldFrame;
 import GUI.WorldPanel;
 import body.Body;
@@ -5,12 +6,14 @@ import body.Body;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.util.List;
 
 public class World {
     private
     WorldFrame frame;
     WorldPanel panel;
+    BoardPanel board_panel;
     List<Body> bodies;
     int x_size = 20;
     int y_size = 20;
@@ -22,11 +25,11 @@ public class World {
         frame.add(panel);
         frame.pack();
         select_size();
-        System.out.println(x_size);
-        System.out.println(y_size);
-
     }
-    void select_size(){
+
+    void select_size() {
+        boolean selected = false;
+        // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
         JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 5, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
@@ -62,13 +65,18 @@ public class World {
         });
         // dodaj słuchacza zdarzeń do przycisku OK
         button.addActionListener(e -> {
-            x_size= slider_x.getValue();
-            y_size= slider_y.getValue();
+            x_size = slider_x.getValue();
+            y_size = slider_y.getValue();
             // zrobić coś z wartością, na przykład zamknąć okno dialogowe i rozpocząć grę
             dialog.dispose();
+            start_game();
         });
         // pokaż okno dialogowe
         dialog.setVisible(true);
     }
 
+    void start_game() {
+        BoardPanel board_panel = new BoardPanel();
+        panel.add(board_panel, BorderLayout.CENTER);
+    }
 }
