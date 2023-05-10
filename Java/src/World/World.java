@@ -2,7 +2,7 @@ package World;
 
 import GUI.*;
 import World.body.Body;
-import World.body.animal.Wolf;
+import World.body.animal.*;
 
 import javax.swing.*;
 import javax.swing.Box;
@@ -23,6 +23,8 @@ public class World implements KeyListener {
     private int y_size = 20;
     private int turn = 0;
     private boolean human_is_alive=true;
+    private int order;
+    private boolean human_special_ability_is_active=false;
 
     public World() {
         bodies = new java.util.ArrayList<>();
@@ -40,8 +42,8 @@ public class World implements KeyListener {
         // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
-        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 2); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
-        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 2); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
         JButton button = new JButton("OK");
 
         // utwórz okno dialogowe
@@ -95,14 +97,12 @@ public class World implements KeyListener {
         }
         frame.pack();
         //Dodawnie organizmow
-        Wolf wolf = new Wolf(new Point(1,1),this);
-        Wolf wolf2 = new Wolf(new Point(2,1),this);
-        Wolf wolf3 = new Wolf(new Point(1,2),this);
-        Wolf wolf4 = new Wolf(new Point(2,2),this);
-        add_body(wolf);
-        add_body(wolf2);
-//        add_body(wolf3);
-//        add_body(wolf4);
+//        Wolf wolf = new Wolf(new Point(1,1),this);
+//        Wolf wolf2 = new Wolf(new Point(2,1),this);
+//        add_body(wolf);
+//        add_body(wolf2);
+        Human human = new Human(new Point(1,1),this);
+        add_body(human);
     }
 
     void make_turn(){
@@ -134,10 +134,16 @@ public class World implements KeyListener {
     }
 
     public void delete_body2(Body body){
+        if(body instanceof Human){
+            human_is_alive=false;
+        }
         boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
         body.setAlive(false);
     }
     public void delete_body(Body body){
+        if(body instanceof Human){
+            human_is_alive=false;
+        }
         boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
         bodies.remove(body);
     }
@@ -183,6 +189,8 @@ public class World implements KeyListener {
         }
         return result;
     }
+
+
     public Body get_body(Point point){
         for(Body body : bodies){
             if(body.getPoint_location().equals(point)){
@@ -190,6 +198,10 @@ public class World implements KeyListener {
             }
         }
         return null;
+    }
+
+    public int getOrder() {
+        return order;
     }
 
     public NewsPanel getNews_panel() {
@@ -214,13 +226,57 @@ public class World implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("Turn: " + turn);
-        make_turn();
+    }
 
+    private boolean order_is_correct(){
+        if(human_is_alive){
+            Human human = null;
+            for(Body body : bodies){
+                if(body instanceof Human){
+                    human = (Human) body;
+                    break;
+                }
+            }
+            switch (order){
+                case KeyEvent.VK_UP:
+                    if(human.getPoint_location().getY()>1) return true;
+                    return false;
+                case KeyEvent.VK_DOWN:
+                    if(human.getPoint_location().getY()<y_size) return true;
+                    return false;
+                case KeyEvent.VK_LEFT:
+                    if(human.getPoint_location().getX()>1) return true;
+                    return false;
+                case KeyEvent.VK_RIGHT:
+                    if(human.getPoint_location().getX()<x_size) return true;
+                    return false;
+                case KeyEvent.VK_1:
+                    if(human.can_use_ability()){
+                        human_special_ability_is_active=true;
+                        human.setAdditionalPower(5);
+                        human.setPower(human.getPower()+human.getAdditionalPower());
+                        news_panel.add_news("Human use special ability!!!");
+                        human.setAgeWhenUsedSpecialSkill(human.getAge());
+                        return false;
+                    }
+                    else{
+                        news_panel.add_news("Human can't use special ability!");
+                        return false;
+                    }
+            }
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        order = e.getKeyCode();
+//        System.out.println("Order: " + order);
+        System.out.println("Turn: " + turn);
+        if(order_is_correct()){
+            make_turn();
+        }
 
     }
 
