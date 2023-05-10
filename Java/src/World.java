@@ -10,14 +10,14 @@ import java.awt.*;
 import java.util.List;
 
 public class World {
-    private
-    WorldFrame frame;
-    WorldPanel panel;
-    BoardPanel board_panel;
-    List<Body> bodies;
-    int x_size = 20;
-    int y_size = 20;
-    int turn = 0;
+    private WorldFrame frame;
+    private WorldPanel panel;
+    private BoardPanel board_panel;
+    private List<Body> bodies;
+    private GUI.Box boxes [][];
+    private int x_size = 20;
+    private int y_size = 20;
+    private int turn = 0;
 
     public World() {
         frame = new WorldFrame();
@@ -76,9 +76,15 @@ public class World {
     }
 
     void start_game() {
-        board_panel = new BoardPanel();
+        board_panel = new BoardPanel(x_size, y_size);
         panel.add(board_panel);
-        SwingUtilities.updateComponentTreeUI(frame); // odświeżanie wyglądu interfejsu
-        frame.requestFocusInWindow();
+        boxes = new GUI.Box[x_size][y_size];
+        for(int i=0;i<x_size;i++){
+            for(int j=0;j<y_size;j++){
+                boxes[i][j] = new GUI.Box(i ,j);
+                board_panel.add(boxes[i][j]);
+            }
+        }
+        frame.pack();
     }
 }
