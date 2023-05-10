@@ -2,7 +2,8 @@ package GUI;
 import java.awt.Color;
 public enum Color_obj {
     BACKGROUND(new Color(194, 164, 164)),
-    EMPTY(new Color(89, 89, 89));
+    WOLF(new Color(0, 0, 0)),
+    EMPTY(new Color(121, 121, 121));
     public Color color;
     Color_obj(Color color) {
         this.color = color;

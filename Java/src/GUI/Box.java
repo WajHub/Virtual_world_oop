@@ -15,8 +15,8 @@ public class Box extends JButton {
 //        this.setText("x:"+x+" y: "+y);
     }
 
-    public void setColor(Color color) {
-        this.setColor(color);
+    public void setColor(Color color_obj) {
+        this.setBackground(color_obj);
     }
 
     public Color getColor() {

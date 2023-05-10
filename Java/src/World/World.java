@@ -1,34 +1,41 @@
-import GUI.BoardPanel;
-import GUI.WorldFrame;
-import GUI.WorldPanel;
-import body.Body;
+package World;
+
+import GUI.*;
+import World.body.Body;
+import World.body.animal.Wolf;
 
 import javax.swing.*;
+import javax.swing.Box;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
-public class World {
+public class World implements KeyListener {
     private WorldFrame frame;
     private WorldPanel panel;
     private BoardPanel board_panel;
+    private NewsPanel news_panel;
     private List<Body> bodies;
     private GUI.Box boxes [][];
     private int x_size = 20;
     private int y_size = 20;
     private int turn = 0;
+    private boolean human_is_alive=true;
 
     public World() {
+        bodies = new java.util.ArrayList<>();
         frame = new WorldFrame();
         panel = new WorldPanel();
+        news_panel = new NewsPanel();
+        panel.add(news_panel);
         frame.add(panel);
         frame.pack();
         select_size();
     }
 
     void select_size() {
-        boolean selected = false;
         // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
@@ -86,5 +93,89 @@ public class World {
             }
         }
         frame.pack();
+        //Dodawnie organizmow
+        Wolf wolf = new Wolf(new Point(1,1),this);
+        add_body(wolf);
+    }
+
+    void make_turn(){
+        for(Body body: bodies){
+            if(body.isAble_to_action()){
+                body.increment_age();
+                body.move();
+                if(!body.isAlive()){
+                    delete_body(body);
+                }
+            }
+            else{
+                body.setAble_to_action(true);
+            }
+        }
+    }
+    public void add_body(Body body){
+        for(int i=0;i<bodies.size();i++){
+            if(bodies.get(i).getInitiative()<body.getInitiative()){
+                bodies.add(i,body);
+                boxes[body.getPoint_location().getX()-1][body.getPoint_location().getY()-1].setColor(body.getColor().getColor());
+                return;
+            }
+        }
+        bodies.add(body);
+        boxes[body.getPoint_location().getX()-1][body.getPoint_location().getY()-1].setColor(body.getColor().getColor());
+    }
+
+    public void delete_body2(Body body){
+        boxes[body.getPoint_location().getX()-1][body.getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+        body.setAlive(false);
+    }
+    public void delete_body(Body body){
+        boxes[body.getPoint_location().getX()-1][body.getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+        bodies.remove(body);
+    }
+    public Body get_body(Point point){
+        for(Body body : bodies){
+            if(body.getPoint_location().equals(point)){
+                return body;
+            }
+        }
+        return null;
+    }
+
+    public NewsPanel getNews_panel() {
+        return news_panel;
+    }
+
+    public GUI.Box[][] getBoxes() {
+        return boxes;
+    }
+
+    public WorldFrame getFrame() {
+        return frame;
+    }
+
+    public int getX_size() {
+        return x_size;
+    }
+
+    public int getY_size() {
+        return y_size;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            make_turn();
+        }
+        System.out.println("keyTyped");
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -1,4 +1,4 @@
-package body;
+package World.body;
 
 public class Plant {
 }

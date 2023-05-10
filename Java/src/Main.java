@@ -1,7 +1,4 @@
-import GUI.WorldFrame;
-import GUI.WorldPanel;
-
-import javax.swing.*;
+import World.World;
 
 public class Main {
     public static void main(String[] args) {
