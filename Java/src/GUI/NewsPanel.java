@@ -20,6 +20,10 @@ public class NewsPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane);
     }
+    public void add_title_name(String news) {
+        content += news + "  ";
+        textArea.setText(content);
+    }
     public void add_news(String news) {
         content += news + "\n";
         textArea.setText(content);

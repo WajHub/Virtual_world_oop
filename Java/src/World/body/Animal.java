@@ -1,21 +1,70 @@
 package World.body;
 
+import GUI.Box;
 import GUI.Color_obj;
 import World.Point;
 import World.World;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public abstract class Animal extends Body {
     private Point last_position;
     private boolean random_location_born(Point new_point, Body other){
-        return true;
+        int free_spaces = getWorld().free_spaces(this);
+        int free_spaces_other = getWorld().free_spaces(other);
+        if(free_spaces==0 && free_spaces_other==0){
+            return false;
+        }
+        else if(free_spaces==0){
+            new_point.setX(other.getPoint_location().getX());
+            new_point.setY(other.getPoint_location().getY());
+            while(true){
+                random_location_empty(other, new_point);
+                if(getWorld().getBoxes()[new_point.getY()-1][new_point.getX()-1].getColor().equals(Color_obj.EMPTY.getColor())){
+                    return true;
+                }
+            }
+        }
+        else if(free_spaces_other==0){
+            new_point.setX(getPoint_location().getX());
+            new_point.setY(getPoint_location().getY());
+            while(true){
+                random_location_empty(this, new_point);
+                if(getWorld().getBoxes()[new_point.getY()-1][new_point.getX()-1].getColor().equals(Color_obj.EMPTY.getColor())){
+                    return true;
+                }
+            }
+        }
+        else{
+            int randomNumber = ThreadLocalRandom.current().nextInt(1, 101) % 2;
+            if(randomNumber==0){
+                new_point.setX(getPoint_location().getX());
+                new_point.setY(getPoint_location().getY());
+                while(true){
+                    random_location_empty(this, new_point);
+                    if(getWorld().getBoxes()[new_point.getY()-1][new_point.getX()-1].getColor().equals(Color_obj.EMPTY.getColor())){
+                        return true;
+                    }
+                }
+            }
+            else{
+                new_point.setX(other.getPoint_location().getX());
+                new_point.setY(other.getPoint_location().getY());
+                while(true){
+                    random_location_empty(other, new_point);
+                    if(getWorld().getBoxes()[new_point.getY()-1][new_point.getX()-1].getColor().equals(Color_obj.EMPTY.getColor())){
+                        return true;
+                    }
+                }
+            }
+        }
     }
-    private void born(Body attakcer){
-        if(getAge()>3 && attakcer.getAge()>3){
+    private void born(Body attacker){
+        if(getAge()>3 && attacker.getAge()>3){
             Point new_point = new Point(getPoint_location().getX(), getPoint_location().getY());
-            if(random_location_born(new_point, attakcer)){
+            if(random_location_born(new_point, attacker)){
                 new_body(new_point);
                 getWorld().getNews_panel().add_news("Born new animal ("+new_point.getX()+","+new_point.getY()+")");
-
             }
             else{
                 getWorld().getNews_panel().add_news("No place to born new animal");
@@ -30,7 +79,7 @@ public abstract class Animal extends Body {
         int y = getPoint_location().getY();
         setPoint_location(getLast_position());
         setLast_position(new Point(x,y));
-        getWorld().getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].setColor(getColor().getColor());
+        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(getColor());
 
     }
     protected boolean changed_position(){
@@ -48,28 +97,33 @@ public abstract class Animal extends Body {
         action();
         if(changed_position()){
             // jesli to pole jest puste
-            if(world.getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].getColor().equals(Color_obj.EMPTY)){
+            if(!world.getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].getColor().equals(Color_obj.EMPTY.color)){
                 //kolizja
                 this.back_move();
-                world.getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+                world.getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
                 Body tmp = world.get_body(getLast_position());
-                this.back_move();
-                tmp.collision(this);
+                if(tmp!=null){
+                    this.back_move();
+                    tmp.collision(this);
+                }
             }
             else{
                 world.getNews_panel().add_news("Move to ("+getPoint_location().getX()+","+getPoint_location().getY()+")");
-                world.getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].setColor(getColor().getColor());
-                world.getBoxes()[getLast_position().getX()-1][getLast_position().getY()-1].setColor(Color_obj.EMPTY.color);
+                world.getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(getColor());
+                world.getBoxes()[getLast_position().getY()-1][getLast_position().getX()-1].setColor(Color_obj.EMPTY);
             }
         }
-        world.getNews_panel().add_news("Remains in place");
+        else{
+            world.getNews_panel().add_news("Remains in place");
+        }
     }
 
     @Override
-    protected void collision(Body other) {
-        if(other instanceof Animal){
-            Animal other_animal = (Animal) other;
+    protected void collision(Body attacker) {
+        if(attacker instanceof Animal){
+            Animal other_animal = (Animal) attacker;
             if(other_animal.getColor().equals(getColor())){
+                other_animal.back_move();;
                 born(other_animal);
             }
             else{
@@ -80,12 +134,12 @@ public abstract class Animal extends Body {
                     getWorld().getNews_panel().add_news("Attack");
                     if(getPower() > other_animal.getPower()){
                         getWorld().getNews_panel().add_news("Killed");
-                        getWorld().getBoxes()[other_animal.getPoint_location().getX()-1][other_animal.getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+                        getWorld().getBoxes()[other_animal.getPoint_location().getY()-1][other_animal.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
                         getWorld().delete_body2(other_animal);
                     }
                     else{
                         getWorld().getNews_panel().add_news("Killed");
-                        getWorld().getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+                        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
                         getWorld().delete_body(this);
                     }
                 }
@@ -93,14 +147,14 @@ public abstract class Animal extends Body {
         }
         else{
             getWorld().getNews_panel().add_news("Attack");
-            if(getPower() > other.getPower()){
+            if(getPower() > attacker.getPower()){
                 getWorld().getNews_panel().add_news("Killed");
-                getWorld().getBoxes()[other.getPoint_location().getX()-1][other.getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
-                getWorld().delete_body2(other);
+                getWorld().getBoxes()[attacker.getPoint_location().getY()-1][attacker.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+                getWorld().delete_body2(attacker);
             }
             else{
                 getWorld().getNews_panel().add_news("Killed");
-                getWorld().getBoxes()[getPoint_location().getX()-1][getPoint_location().getY()-1].setColor(Color_obj.EMPTY.color);
+                getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
                 getWorld().delete_body(this);
             }
         }

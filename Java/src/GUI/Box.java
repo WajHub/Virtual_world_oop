@@ -6,30 +6,31 @@ import java.awt.*;
 public class Box extends JButton {
     private int x;
     private int y;
-    private Color_obj color_obj = Color_obj.EMPTY;
+    private Color color = Color_obj.EMPTY.getColor();
 
     public Box(int x, int y) {
         this.x = x;
         this.y = y;
-        this.setBackground(color_obj.getColor());
+        this.setBackground(color);
 //        this.setText("x:"+x+" y: "+y);
     }
 
-    public void setColor(Color color_obj) {
-        this.setBackground(color_obj);
+    public void setColor(Color_obj color2){
+        color=color2.getColor();
+        this.setBackground(color);
     }
 
     public Color getColor() {
-        return color_obj.getColor();
+        return color;
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
+//    @Override
+//    public int getX() {
+//        return x;
+//    }
+//
+//    @Override
+//    public int getY() {
+//        return y;
+//    }
 }

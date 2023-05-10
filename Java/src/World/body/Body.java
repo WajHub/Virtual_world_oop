@@ -3,6 +3,7 @@ package World.body;
 import GUI.Color_obj;
 import World.World;
 import World.Point;
+import World.body.animal.Wolf;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,32 +21,32 @@ public abstract class  Body {
 
     protected void random_location_empty(Body body, Point new_point){
         int x = body.getPoint_location().getX();
-        int y = body.getPoint_location().getX();
+        int y = body.getPoint_location().getY();
         int randomNumber;
         boolean tmp = true;
         while(tmp){
             randomNumber = ThreadLocalRandom.current().nextInt(1, 101) % 4 + 1;
             switch (randomNumber){
                 case 1:
-                    if(x<world.getX_size() && world.getBoxes()[x][y-1].getColor().equals(Color_obj.EMPTY)){
+                    if(x<world.getX_size() && world.getBoxes()[y-1][x].getColor().equals(Color_obj.EMPTY.getColor())){
                         new_point.setX(new_point.getX()+1);
                         tmp=false;
                     }
                     break;
                 case 2:
-                    if(x > 1 && world.getBoxes()[x-2][y-1].getColor().equals(Color_obj.EMPTY)){
+                    if(x > 1 && world.getBoxes()[y-1][x-2].getColor().equals(Color_obj.EMPTY.getColor())){
                         new_point.setX(new_point.getX()-1);
                         tmp = false;
                     }
                     break;
                 case 3:
-                    if(y<world.getY_size() && world.getBoxes()[x-1][y].getColor().equals(Color_obj.EMPTY)){
+                    if(y<world.getY_size() && world.getBoxes()[y][x-1].getColor().equals(Color_obj.EMPTY.getColor())){
                         new_point.setY(new_point.getY()+1);
                         tmp=false;
                     }
                     break;
                 case 4:
-                    if(y > 1 && world.getBoxes()[x-1][y-2].getColor().equals(Color_obj.EMPTY)){
+                    if(y > 1 && world.getBoxes()[y-2][x-1].getColor().equals(Color_obj.EMPTY.getColor())){
                         new_point.setY(new_point.getY()-1);
                         tmp = false;
                     }
@@ -55,7 +56,7 @@ public abstract class  Body {
     }
     protected  void random_location(Point new_point){
         int x = getPoint_location().getX();
-        int y = getPoint_location().getX();
+        int y = getPoint_location().getY();
         new_point.setX(x);
         new_point.setY(y);
         int randomNumber;
@@ -64,25 +65,25 @@ public abstract class  Body {
             randomNumber = ThreadLocalRandom.current().nextInt(1, 101) % 4 + 1;
             switch (randomNumber){
                 case 1:
-                    if(x<world.getX_size() && world.getBoxes()[x][y-1].getColor().equals(Color_obj.EMPTY)){
+                    if(x<world.getX_size()){
                         new_point.setX(new_point.getX()+1);
                         tmp=false;
                     }
                     break;
                 case 2:
-                    if(x > 1 && world.getBoxes()[x-2][y-1].getColor().equals(Color_obj.EMPTY)){
+                    if(x > 1){
                         new_point.setX(new_point.getX()-1);
                         tmp = false;
                     }
                     break;
                 case 3:
-                    if(y<world.getY_size() && world.getBoxes()[x-1][y].getColor().equals(Color_obj.EMPTY)){
+                    if(y<world.getY_size() ){
                         new_point.setY(new_point.getY()+1);
                         tmp=false;
                     }
                     break;
                 case 4:
-                    if(y > 1 && world.getBoxes()[x-1][y-2].getColor().equals(Color_obj.EMPTY)){
+                    if(y > 1){
                         new_point.setY(new_point.getY()-1);
                         tmp = false;
                     }
@@ -91,9 +92,12 @@ public abstract class  Body {
         }
     }
 
-
     public void new_body(Point point){
-
+        switch (color){
+            case WOLF:
+                getWorld().add_body(new Wolf(point, getWorld()));
+                break;
+        }
     }
 
     public void increment_age(){
