@@ -18,14 +18,15 @@ public class SosnowskysHogweed extends Plant {
     }
     public void kill_around(){
         Point point = new Point(getPoint_location().getX(), getPoint_location().getY());
-        int directions_y[] = {-1, 0, 1, 0};
-        int directions_x[] = {0, 1, 0, -1};
-        for(int i=0; i<4;i++){
+        int directions_y[] = {-1, 0, 1, 0,1,-1,1,-1};
+        int directions_x[] = {0, 1, 0, -1,1,-1,-1,1};
+        for(int i=0; i<8;i++){
             if(point.getX()+directions_x[i]>=1 && point.getX()+directions_x[i]<=getWorld().getX_size()
                     && point.getY()+directions_y[i]>=1 && point.getY()+directions_y[i]<=getWorld().getY_size()){
                 Body body = getWorld().get_body(new Point(point.getX()+directions_x[i], point.getY()+directions_y[i]));
                 if(body instanceof Animal){
-                    getWorld().delete_body(getWorld().get_body(new Point(point.getX()+directions_x[i], point.getY()+directions_y[i])));
+                    getWorld().delete_body2(getWorld().get_body(new Point(point.getX()+directions_x[i], point.getY()+directions_y[i])));
+                    getWorld().getBoxes()[point.getY()+directions_y[i]-1][point.getX()+directions_x[i]-1].setColor(Color_obj.EMPTY);
                     getWorld().getNews_panel().add_news(getName() + " has killed " + body.getName() + " on (" + body.getPoint_location().getX() + ", " + body.getPoint_location().getY()+')');
                 }
             }

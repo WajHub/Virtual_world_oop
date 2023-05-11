@@ -105,6 +105,7 @@ public class World implements KeyListener {
         int random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
         Human human = new Human(new Point(random_x,random_y),this);
         add_body(human);
+
         make_turn();
     }
 
@@ -123,11 +124,13 @@ public class World implements KeyListener {
     public void make_turn(){
         for(int i=0;i<bodies.size();i++){
             if(bodies.get(i).isAble_to_action()){
-                bodies.get(i).increment_age();
-                news_panel.add_title_name(bodies.get(i).getName()+"---> ");
-                bodies.get(i).move();
                 if(!bodies.get(i).isAlive()){
                     delete_body(bodies.get(i));
+                }
+                else{
+                    bodies.get(i).increment_age();
+                    news_panel.add_title_name(bodies.get(i).getName()+"---> ");
+                    bodies.get(i).move();
                 }
             }
             else{
