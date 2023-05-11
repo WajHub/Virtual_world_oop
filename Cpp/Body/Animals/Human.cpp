@@ -31,6 +31,7 @@ void Human::action() {
         case RIGHT_ARROW:
             setLastPositionX(getXLocation());
             setLastPositionY(getYLocation());
+
             setXLocation(getXLocation()+1);
             break;
         case UP_ARROW:
