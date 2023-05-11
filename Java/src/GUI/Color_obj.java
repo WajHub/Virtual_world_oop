@@ -7,7 +7,7 @@ public enum Color_obj {
     WOLF(new Color(0, 0, 0)),
     FOX(new Color(213, 85, 20)),
     TORTOISE(new Color(23, 70, 23)),
-    ANTELOPE(new Color(236, 255, 0)),
+    ANTELOPE(new Color(175, 110, 77)),
     SHEEP(new Color(255, 255, 255)),
     GRASS(new Color(0, 255, 0)),
     BELLADONNA(new Color(91, 14, 35)),

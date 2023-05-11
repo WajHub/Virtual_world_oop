@@ -3,7 +3,8 @@ package World.body;
 import GUI.Color_obj;
 import World.World;
 import World.Point;
-import World.body.animal.Wolf;
+import World.body.animal.*;
+import World.body.plant.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -96,6 +97,33 @@ public abstract class  Body {
         switch (color){
             case WOLF:
                 getWorld().add_body(new Wolf(point, getWorld()));
+                break;
+            case SHEEP:
+                getWorld().add_body(new Sheep(point, getWorld()));
+                break;
+            case ANTELOPE:
+                getWorld().add_body(new Antelope(point, getWorld()));
+                break;
+            case FOX:
+                getWorld().add_body(new Fox(point, getWorld()));
+                break;
+            case TORTOISE:
+                getWorld().add_body(new Tortoise(point, getWorld()));
+                break;
+            case GRASS:
+                getWorld().add_body(new Grass(point, getWorld()));
+                break;
+            case DANDELION:
+                getWorld().add_body(new Dandelion(point, getWorld()));
+                break;
+            case GUARANA:
+                getWorld().add_body(new Guarana(point, getWorld()));
+                break;
+            case BELLADONNA:
+                getWorld().add_body(new Belladonna(point, getWorld()));
+                break;
+            case SOSNOWSKYSHOGWEED:
+                getWorld().add_body(new SosnowskysHogweed(point, getWorld()));
                 break;
         }
     }

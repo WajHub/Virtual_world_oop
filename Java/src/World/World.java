@@ -8,9 +8,12 @@ import javax.swing.*;
 import javax.swing.Box;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class World implements KeyListener {
     private WorldFrame frame;
@@ -42,8 +45,8 @@ public class World implements KeyListener {
         // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
-        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 5); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
-        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 5); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
         JButton button = new JButton("OK");
 
         // utwórz okno dialogowe
@@ -87,28 +90,37 @@ public class World implements KeyListener {
 
     void start_game() {
         board_panel = new BoardPanel(x_size, y_size);
+        board_panel.addKeyListener(this);
         panel.add(board_panel);
         boxes = new GUI.Box[x_size][y_size];
         for(int i=0;i<x_size;i++){
             for(int j=0;j<y_size;j++){
-                boxes[i][j] = new GUI.Box(i ,j);
+                boxes[i][j] = new GUI.Box(i+1 ,j+1,this);
                 board_panel.add(boxes[i][j]);
             }
         }
         frame.pack();
         //Dodawnie organizmow
-//        Wolf wolf = new Wolf(new Point(5,5),this);
-//        Wolf wolf2 = new Wolf(new Point(2,1),this);
-//        add_body(wolf);
-//        add_body(wolf2);
-        Tortoise antelope =new Tortoise(new Point(5,5),this);
-        Human human = new Human(new Point(5,1),this);
+        int random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+        int random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+        Human human = new Human(new Point(random_x,random_y),this);
         add_body(human);
-        add_body(antelope);
         make_turn();
     }
 
-    void make_turn(){
+    public WorldPanel getPanel() {
+        return panel;
+    }
+
+    public boolean isHuman_special_ability_is_active() {
+        return human_special_ability_is_active;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void make_turn(){
         for(int i=0;i<bodies.size();i++){
             if(bodies.get(i).isAble_to_action()){
                 bodies.get(i).increment_age();
@@ -248,11 +260,11 @@ public class World implements KeyListener {
         return y_size;
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+    public void setOrder(int order) {
+        this.order = order;
     }
 
-    private boolean order_is_correct(){
+    public boolean order_is_correct(){
         if(human_is_alive){
             Human human = null;
             for(Body body : bodies){
@@ -292,6 +304,10 @@ public class World implements KeyListener {
         }
         return true;
     }
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -300,7 +316,6 @@ public class World implements KeyListener {
             make_turn();
             panel.description("Turn: " + turn+" |  Human ability active: "+human_special_ability_is_active);
         }
-
     }
 
     @Override

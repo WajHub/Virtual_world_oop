@@ -28,6 +28,12 @@ public class Dandelion extends Plant {
                     new_body(new_point);
                     getWorld().getNews_panel().add_news(getName() + " has grown on (" + new_point.getX() + ", " + new_point.getY()+')');
                 }
+                else{
+                    getWorld().getNews_panel().add_news("Nothing happened");
+                }
+            }
+            else{
+                getWorld().getNews_panel().add_news("Nothing happened");
             }
         }
     }
