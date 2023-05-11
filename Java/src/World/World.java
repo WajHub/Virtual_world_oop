@@ -97,12 +97,15 @@ public class World implements KeyListener {
         }
         frame.pack();
         //Dodawnie organizmow
-        Wolf wolf = new Wolf(new Point(5,5),this);
-        Wolf wolf2 = new Wolf(new Point(2,1),this);
-        add_body(wolf);
-        add_body(wolf2);
+//        Wolf wolf = new Wolf(new Point(5,5),this);
+//        Wolf wolf2 = new Wolf(new Point(2,1),this);
+//        add_body(wolf);
+//        add_body(wolf2);
+        Tortoise antelope =new Tortoise(new Point(5,5),this);
         Human human = new Human(new Point(5,1),this);
         add_body(human);
+        add_body(antelope);
+        make_turn();
     }
 
     void make_turn(){

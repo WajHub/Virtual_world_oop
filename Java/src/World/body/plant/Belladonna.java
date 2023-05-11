@@ -5,12 +5,12 @@ import World.Point;
 import World.World;
 import World.body.Plant;
 
-public class Grass extends Plant {
-    public Grass(Point point_location, World world) {
+public class Belladonna extends Plant {
+    public Belladonna(Point point_location, World world) {
         super(point_location, world);
-        setName("Grass");
-        setPower(0);
-        setColor(Color_obj.GRASS);
+        setName("Belladonna");
+        setPower(999);
+        setColor(Color_obj.BELLADONNA);
     }
 
     @Override

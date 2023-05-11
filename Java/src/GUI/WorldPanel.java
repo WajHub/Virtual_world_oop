@@ -24,6 +24,11 @@ public class WorldPanel extends JPanel{
         Font font = label_descritption.getFont(); // Pobranie istniejącej czcionki
         font = font.deriveFont(17f); // Utworzenie nowej czcionki z tymi samymi właściwościami, ale z rozmiarem 17 punktów
 
+        JLabel move = new JLabel("                  Move - arrays (when human is alive)                                                        ");
+        move.setBorder(new EmptyBorder(4,4,4,4));
+        move.setFont(font);
+        legendPanel.add(move);
+
         JLabel wolf = new JLabel("  Wolf   ");
         wolf.setBorder(new EmptyBorder(4,4,4,4));
         wolf.setFont(font);
