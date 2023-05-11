@@ -134,12 +134,12 @@ public abstract class Animal extends Body {
                     if(getPower() > other_animal.getPower()){
                         getWorld().getNews_panel().add_news(this.getName()+" are killing "+other_animal.getName());
                         getWorld().delete_body2(other_animal);
-                        getWorld().getBoxes()[other_animal.getPoint_location().getY()-1][other_animal.getPoint_location().getX()-1].setColor(this.getColor());
+                        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(this.getColor());
                     }
                     else{
                         getWorld().getNews_panel().add_news(other_animal.getName()+" are killing "+this.getName());
                         getWorld().delete_body(this);
-                        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(other_animal.getColor());
+                        getWorld().getBoxes()[other_animal.getPoint_location().getY()-1][other_animal.getPoint_location().getX()-1].setColor(other_animal.getColor());
                     }
                 }
             }

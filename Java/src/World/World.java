@@ -120,7 +120,28 @@ public class World implements KeyListener {
             }
         }
         turn++;
+        human_special_ability();
     }
+
+    private void human_special_ability() {
+        if (human_is_alive && human_special_ability_is_active) {
+            Human human;
+            for (Body body : bodies) {
+                if (body instanceof Human) {
+                    human = (Human) body;
+                    if (human.getAdditionalPower() > 0) {
+                        human.setAdditionalPower(human.getAdditionalPower() - 1);
+                        human.setPower(human.getPower() -1);
+                        break;
+                    } else {
+                        human_special_ability_is_active = false;
+                    }
+                }
+            }
+        }
+
+    }
+
     public void add_body(Body body){
         for(int i=0;i<bodies.size();i++){
             if(bodies.get(i).getInitiative()<body.getInitiative()){
@@ -137,14 +158,14 @@ public class World implements KeyListener {
         if(body instanceof Human){
             human_is_alive=false;
         }
-        boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+//        boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
         body.setAlive(false);
     }
     public void delete_body(Body body){
         if(body instanceof Human){
             human_is_alive=false;
         }
-        boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+//        boxes[body.getPoint_location().getY()-1][body.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
         bodies.remove(body);
     }
 
@@ -272,10 +293,9 @@ public class World implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         order = e.getKeyCode();
-//        System.out.println("Order: " + order);
-        System.out.println("Turn: " + turn);
         if(order_is_correct()){
             make_turn();
+            panel.description("Turn: " + turn+" |  Human ability active: "+human_special_ability_is_active);
         }
 
     }
