@@ -112,7 +112,7 @@ public class World implements KeyListener {
         for(int i=0;i<bodies.size();i++){
             if(bodies.get(i).isAble_to_action()){
                 bodies.get(i).increment_age();
-                news_panel.add_title_name(bodies.get(i).getName());
+                news_panel.add_title_name(bodies.get(i).getName()+"---> ");
                 bodies.get(i).move();
                 if(!bodies.get(i).isAlive()){
                     delete_body(bodies.get(i));

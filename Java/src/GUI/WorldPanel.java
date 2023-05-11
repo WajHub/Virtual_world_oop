@@ -43,6 +43,41 @@ public class WorldPanel extends JPanel{
         human.setBackground(Color_obj.HUMAN.getColor());
         human.setOpaque(true);
         legendPanel.add(human);
+
+        JLabel antelope = new JLabel("  Antelope   ");
+        antelope.setBorder(new EmptyBorder(4,4,4,4));
+        antelope.setFont(font);
+        antelope.setBackground(Color_obj.ANTELOPE.getColor());
+        antelope.setOpaque(true);
+        legendPanel.add(antelope);
+
+        JLabel fox = new JLabel("  Fox   ");
+        fox.setBorder(new EmptyBorder(4,4,4,4));
+        fox.setFont(font);
+        fox.setBackground(Color_obj.FOX.getColor());
+        fox.setOpaque(true);
+        legendPanel.add(fox);
+
+        JLabel sheep = new JLabel("  Sheep   ");
+        sheep.setBorder(new EmptyBorder(4,4,4,4));
+        sheep.setFont(font);
+        sheep.setBackground(Color_obj.SHEEP.getColor());
+        sheep.setOpaque(true);
+        legendPanel.add(sheep);
+
+        JLabel tortoise = new JLabel("  Tortoise   ");
+        tortoise.setBorder(new EmptyBorder(4,4,4,4));
+        tortoise.setFont(font);
+        tortoise.setBackground(Color_obj.TORTOISE.getColor());
+        tortoise.setOpaque(true);
+        legendPanel.add(tortoise);
+
+        JLabel grass = new JLabel("  Grass   ");
+        grass.setBorder(new EmptyBorder(4,4,4,4));
+        grass.setFont(font);
+        grass.setBackground(Color_obj.GRASS.getColor());
+        grass.setOpaque(true);
+        legendPanel.add(grass);
     }
     public void description(String text){
         label_descritption.setText(text);
