@@ -42,8 +42,8 @@ public class World implements KeyListener {
         // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
-        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
-        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 5); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 5); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
         JButton button = new JButton("OK");
 
         // utwórz okno dialogowe
@@ -97,11 +97,11 @@ public class World implements KeyListener {
         }
         frame.pack();
         //Dodawnie organizmow
-//        Wolf wolf = new Wolf(new Point(1,1),this);
-//        Wolf wolf2 = new Wolf(new Point(2,1),this);
-//        add_body(wolf);
-//        add_body(wolf2);
-        Human human = new Human(new Point(1,1),this);
+        Wolf wolf = new Wolf(new Point(5,5),this);
+        Wolf wolf2 = new Wolf(new Point(2,1),this);
+        add_body(wolf);
+        add_body(wolf2);
+        Human human = new Human(new Point(5,1),this);
         add_body(human);
     }
 

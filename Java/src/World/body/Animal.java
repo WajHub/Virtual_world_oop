@@ -131,31 +131,29 @@ public abstract class Animal extends Body {
                     getWorld().getNews_panel().add_news("Repel attack");
                 }
                 else{
-                    getWorld().getNews_panel().add_news("Attack");
                     if(getPower() > other_animal.getPower()){
-                        getWorld().getNews_panel().add_news("Killed");
-                        getWorld().getBoxes()[other_animal.getPoint_location().getY()-1][other_animal.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+                        getWorld().getNews_panel().add_news(this.getName()+" are killing "+other_animal.getName());
                         getWorld().delete_body2(other_animal);
+                        getWorld().getBoxes()[other_animal.getPoint_location().getY()-1][other_animal.getPoint_location().getX()-1].setColor(this.getColor());
                     }
                     else{
-                        getWorld().getNews_panel().add_news("Killed");
-                        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+                        getWorld().getNews_panel().add_news(other_animal.getName()+" are killing "+this.getName());
                         getWorld().delete_body(this);
+                        getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(other_animal.getColor());
                     }
                 }
             }
         }
         else{
-            getWorld().getNews_panel().add_news("Attack");
             if(getPower() > attacker.getPower()){
-                getWorld().getNews_panel().add_news("Killed");
-                getWorld().getBoxes()[attacker.getPoint_location().getY()-1][attacker.getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+                getWorld().getNews_panel().add_news(attacker.getName()+" are eating "+this.getName()+" and die");
                 getWorld().delete_body2(attacker);
+                getWorld().getBoxes()[attacker.getPoint_location().getY()-1][attacker.getPoint_location().getX()-1].setColor(this.getColor());
             }
             else{
-                getWorld().getNews_panel().add_news("Killed");
-                getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(Color_obj.EMPTY);
+                getWorld().getNews_panel().add_news(this.getName()+" are eating "+attacker.getName());
                 getWorld().delete_body(this);
+                getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(attacker.getColor());
             }
         }
     }
