@@ -6,7 +6,9 @@ import World.World;
 import World.body.Animal;
 import World.body.Body;
 
-public class Sheep extends Animal {
+import java.io.Serializable;
+
+public class Sheep extends Animal implements Serializable {
 
     public Sheep(Point point_location, World world) {
         super(point_location, world);

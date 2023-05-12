@@ -6,9 +6,10 @@ import World.World;
 import World.body.Animal;
 import World.body.Body;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Antelope extends Animal {
+public class Antelope extends Animal implements Serializable {
 
     public Antelope(Point point_location, World world) {
         super(point_location, world);

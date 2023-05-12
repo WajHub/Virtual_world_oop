@@ -12,11 +12,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class World implements KeyListener {
-    private WorldFrame frame;
+public class World implements KeyListener, Serializable {
+    private WorldFrame frame=null;
     private WorldPanel panel;
     private BoardPanel board_panel;
     private NewsPanel news_panel;
@@ -32,13 +36,48 @@ public class World implements KeyListener {
     public World() {
         bodies = new java.util.ArrayList<>();
         frame = new WorldFrame();
-        panel = new WorldPanel();
+        panel = new WorldPanel(this);
         frame.addKeyListener(this);
         news_panel = new NewsPanel();
         panel.add(news_panel);
         frame.add(panel);
         frame.pack();
         select_size();
+    }
+    public void new_game(){
+        x_size = 20;
+        y_size = 20;
+        if(board_panel!=null){
+            panel.remove(board_panel);
+        }
+        if(news_panel!=null){
+            panel.remove(news_panel);
+        }
+        select_size();
+        board_panel = new BoardPanel(x_size,y_size);
+        panel.add(board_panel);
+        news_panel = new NewsPanel();
+        panel.add(news_panel);
+        panel.refresh();
+        bodies.clear();
+        turn = 0;
+        human_is_alive=true;
+        human_special_ability_is_active=false;
+    }
+
+    public void save_game(){
+        try {
+            // Utwórz obiekt ObjectOutputStream
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("nazwa_pliku.ser"));
+
+            // Zapisz obiekt do pliku
+            outputStream.writeObject(this);
+
+            // Zamknij strumień wyjściowy
+            outputStream.close();
+        } catch (IOException er) {
+            er.printStackTrace();
+        }
     }
 
     void select_size() {
@@ -89,13 +128,13 @@ public class World implements KeyListener {
     }
 
     void start_game() {
-        board_panel = new BoardPanel(x_size, y_size);
+        board_panel = new BoardPanel(y_size, x_size);
         board_panel.addKeyListener(this);
         panel.add(board_panel);
-        boxes = new GUI.Box[x_size][y_size];
-        for(int i=0;i<x_size;i++){
-            for(int j=0;j<y_size;j++){
-                boxes[i][j] = new GUI.Box(i+1 ,j+1,this);
+        boxes = new GUI.Box[y_size][x_size];
+        for(int i=0;i<y_size;i++){
+            for(int j=0;j<x_size;j++){
+                boxes[i][j] = new GUI.Box(j+1 ,i+1,this);
                 board_panel.add(boxes[i][j]);
             }
         }
@@ -103,9 +142,8 @@ public class World implements KeyListener {
         //Dodawnie organizmow
         int random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
         int random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
-        Human human = new Human(new Point(random_x,random_y),this);
+        Human human = new Human(new Point(1,1),this);
         add_body(human);
-
         make_turn();
     }
 
@@ -122,6 +160,7 @@ public class World implements KeyListener {
     }
 
     public void make_turn(){
+        if(turn%5==0) news_panel.clear();
         for(int i=0;i<bodies.size();i++){
             if(bodies.get(i).isAble_to_action()){
                 if(!bodies.get(i).isAlive()){
@@ -139,6 +178,7 @@ public class World implements KeyListener {
         }
         turn++;
         human_special_ability();
+        news_panel.add_news(" ");
     }
 
     private void human_special_ability() {
@@ -325,4 +365,6 @@ public class World implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
+
+
 }

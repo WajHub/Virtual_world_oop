@@ -4,11 +4,15 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import World.World;
 
 public class WorldPanel extends JPanel  {
     private LegendPanel legendPanel = new LegendPanel();
     private JLabel label_descritption = new JLabel("Turn: 0  Human ability is active: false");
-    public WorldPanel() {
+
+    private World world;
+    public WorldPanel(World world) {
+        this.world=world;
         this.setFocusable(true);
         this.setBackground(Color_obj.BACKGROUND.getColor());
         this.setPreferredSize(new Dimension(WorldFrame.SCREEN_WIDTH, WorldFrame.SCREEN_HEIGHT));
@@ -19,7 +23,7 @@ public class WorldPanel extends JPanel  {
         label_descritption.setFont(font); // Ustawienie nowej czcionki dla etykiety
         legend_bodies();
         this.add(legendPanel);
-        this.add(new MenuPanel());
+        this.add(new MenuPanel(world));
     }
     private void legend_bodies(){
         Font font = label_descritption.getFont(); // Pobranie istniejącej czcionki
@@ -112,5 +116,9 @@ public class WorldPanel extends JPanel  {
     }
     public void description(String text){
         label_descritption.setText(text);
+    }
+
+    public void refresh(){
+        label_descritption.setText("Turn: 0  Human ability is active: false");
     }
 }

@@ -28,4 +28,7 @@ public class NewsPanel extends JPanel {
         content += news + "\n";
         textArea.setText(content);
     }
+    public void clear(){
+        content="";
+    }
 }

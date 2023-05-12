@@ -80,7 +80,6 @@ public abstract class Animal extends Body {
         setPoint_location(getLast_position());
         setLast_position(new Point(x,y));
         getWorld().getBoxes()[getPoint_location().getY()-1][getPoint_location().getX()-1].setColor(getColor());
-
     }
     protected boolean changed_position(){
         return !getLast_position().equals(getPoint_location());

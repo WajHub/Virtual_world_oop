@@ -7,8 +7,9 @@ import World.body.Animal;
 import World.body.Body;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class Human extends Animal {
+public class Human extends Animal implements Serializable {
     private int additional_power = 0;
     int age_when_used_special_skill = -10;
     public Human(Point point_location, World world) {
