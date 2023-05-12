@@ -9,6 +9,7 @@ import World.body.Body;
 import java.io.Serializable;
 
 public class Sheep extends Animal implements Serializable {
+    private static final long serialVersionUID = -123456789L;
 
     public Sheep(Point point_location, World world) {
         super(point_location, world);

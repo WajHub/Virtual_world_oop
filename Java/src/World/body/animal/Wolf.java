@@ -6,7 +6,10 @@ import World.World;
 import World.body.Animal;
 import World.body.Body;
 
-public class Wolf extends Animal {
+import java.io.Serializable;
+
+public class Wolf extends Animal implements Serializable {
+    private static final long serialVersionUID = 42L;
     private static int amount=0;
     public Wolf(Point point_location, World world) {
         super(point_location, world);

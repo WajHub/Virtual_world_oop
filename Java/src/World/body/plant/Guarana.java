@@ -5,7 +5,10 @@ import World.Point;
 import World.World;
 import World.body.Plant;
 
-public class Guarana extends Plant {
+import java.io.Serializable;
+
+public class Guarana extends Plant implements Serializable {
+    private static final long serialVersionUID = -987654321L;
     public Guarana(Point point_location, World world) {
         super(point_location, world);
         setName("Guarana");

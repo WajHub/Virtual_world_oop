@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class World implements KeyListener, Serializable {
+    private static final long serialVersionUID = 3688349504550707806L;
+
     private WorldFrame frame=null;
     private WorldPanel panel;
     private BoardPanel board_panel;
@@ -63,21 +65,6 @@ public class World implements KeyListener, Serializable {
         turn = 0;
         human_is_alive=true;
         human_special_ability_is_active=false;
-    }
-
-    public void save_game(){
-        try {
-            // Utwórz obiekt ObjectOutputStream
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("nazwa_pliku.ser"));
-
-            // Zapisz obiekt do pliku
-            outputStream.writeObject(this);
-
-            // Zamknij strumień wyjściowy
-            outputStream.close();
-        } catch (IOException er) {
-            er.printStackTrace();
-        }
     }
 
     void select_size() {

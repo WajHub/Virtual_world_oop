@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Antelope extends Animal implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     public Antelope(Point point_location, World world) {
         super(point_location, world);
         setName("Antelope");

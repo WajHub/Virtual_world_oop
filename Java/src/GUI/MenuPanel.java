@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MenuPanel extends JPanel implements ActionListener {
     private World world;
@@ -42,9 +42,48 @@ public class MenuPanel extends JPanel implements ActionListener {
             world.new_game();
         }
         else if(e.getSource()==load_game){
+            JFrame dialog = new JFrame("Select file to load");
+            dialog.setSize(300, 200);
+
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new java.io.File("./saves"));
+            int result = fileChooser.showOpenDialog(dialog);
+
+            if(result==JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+                    // Deserialize the object from the selected file
+                    Object deserializedObject = in.readObject();
+                    // Do something with the deserialized object
+                    if(deserializedObject instanceof World){
+                        world = (World) deserializedObject;
+                        world.getNews_panel().add_news("Game loaded from file: "+file.getName());
+                    }
+
+                } catch (IOException | ClassNotFoundException er) {
+                    // Handle any exceptions that occur during deserialization
+                    er.printStackTrace();
+                }
+            }
+
 
         }else if(e.getSource()==save_game){
-            world.save_game();
+            LocalDateTime currentTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+            String fileName = currentTime.format(formatter)+ ".ser";
+            try {
+                // Utwórz obiekt ObjectOutputStream
+                ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("saves/"+fileName));
+
+                // Zapisz obiekt do pliku
+                outputStream.writeObject(world);
+                world.getNews_panel().add_news("Game saved to file: "+fileName);
+
+                // Zamknij strumień wyjściowy
+                outputStream.close();
+            } catch (IOException er) {
+                er.printStackTrace();
+            }
         }
     }
 }

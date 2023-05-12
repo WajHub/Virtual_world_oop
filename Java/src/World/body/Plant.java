@@ -7,6 +7,8 @@ import World.World;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Plant extends Body{
+    public Plant() {
+    }
 
     public Plant(Point point_location, World world) {
         super(point_location, world);

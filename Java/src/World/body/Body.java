@@ -132,6 +132,9 @@ public abstract class  Body {
         age++;
     }
 
+    public Body() {
+    }
+
     public Body(Point point_location, World world) {
         this.point_location = point_location;
         this.world = world;

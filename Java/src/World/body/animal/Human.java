@@ -10,8 +10,14 @@ import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
 public class Human extends Animal implements Serializable {
+    private static final long serialVersionUID = -1534372028747757553L;
+
     private int additional_power = 0;
     int age_when_used_special_skill = -10;
+
+    public Human() {
+    }
+
     public Human(Point point_location, World world) {
         super(point_location, world);
         setName("Human");

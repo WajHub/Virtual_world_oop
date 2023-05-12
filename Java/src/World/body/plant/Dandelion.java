@@ -5,9 +5,11 @@ import World.Point;
 import World.World;
 import World.body.Plant;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Dandelion extends Plant {
+public class Dandelion extends Plant implements Serializable {
+    private static final long serialVersionUID = -999999999L;
     public Dandelion(Point point_location, World world) {
         super(point_location, world);
         setName("Dandelion");

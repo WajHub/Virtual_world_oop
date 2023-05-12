@@ -6,9 +6,11 @@ import World.World;
 import World.body.Animal;
 import World.body.Body;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Tortoise extends Animal {
+public class Tortoise extends Animal implements Serializable {
+    private static final long serialVersionUID = 8675309L;
     public Tortoise(Point point_location, World world) {
         super(point_location, world);
         setName("Tortoise");

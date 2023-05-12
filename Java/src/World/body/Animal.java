@@ -85,6 +85,9 @@ public abstract class Animal extends Body {
         return !getLast_position().equals(getPoint_location());
     }
 
+    public Animal() {
+    }
+
     public Animal(Point point_location, World world) {
         super(point_location, world);
         setLast_position(point_location);

@@ -7,9 +7,12 @@ import World.body.Animal;
 import World.body.Body;
 import World.body.Plant;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SosnowskysHogweed extends Plant {
+public class SosnowskysHogweed extends Plant implements Serializable {
+    private static final long serialVersionUID = 314159265L;
+
     public SosnowskysHogweed(Point point_location, World world) {
         super(point_location, world);
         setName("SosnowskysHogweed");

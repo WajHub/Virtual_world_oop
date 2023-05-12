@@ -5,7 +5,10 @@ import World.Point;
 import World.World;
 import World.body.Plant;
 
-public class Belladonna extends Plant {
+import java.io.Serializable;
+
+public class Belladonna extends Plant implements Serializable {
+    private static final long serialVersionUID = 999999999L;
     public Belladonna(Point point_location, World world) {
         super(point_location, world);
         setName("Belladonna");
