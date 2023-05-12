@@ -34,7 +34,6 @@ public class World implements KeyListener, Serializable {
     private boolean human_is_alive=true;
     private int order;
     private boolean human_special_ability_is_active=false;
-
     public World() {
         bodies = new java.util.ArrayList<>();
         frame = new WorldFrame();
@@ -66,6 +65,46 @@ public class World implements KeyListener, Serializable {
         human_is_alive=true;
         human_special_ability_is_active=false;
     }
+
+    public void load_game(World new_world){
+        if(board_panel!=null){
+            panel.remove(board_panel);
+        }
+        if(news_panel!=null){
+            panel.remove(news_panel);
+        }
+        this.turn = new_world.turn;
+        this.human_is_alive = new_world.human_is_alive;
+        this.human_special_ability_is_active = new_world.human_special_ability_is_active;
+        this.x_size=new_world.x_size;
+        this.y_size=new_world.y_size;
+
+        board_panel = new BoardPanel(y_size, x_size);
+        board_panel.addKeyListener(this);
+
+        news_panel = new NewsPanel();
+
+        panel.add(board_panel);
+        panel.add(news_panel);
+
+        boxes = new GUI.Box[y_size][x_size];
+        for(int i=0;i<y_size;i++){
+            for(int j=0;j<x_size;j++){
+                boxes[i][j] = new GUI.Box(j+1 ,i+1,this);
+                board_panel.add(boxes[i][j]);
+            }
+        }
+
+        bodies.clear();
+        for(Body body: new_world.bodies){
+            add_body(body);
+            body.setWorld(this);
+            System.out.println(body.getName()+" "+body.getPoint_location().getX()+" "+body.getPoint_location().getY()+body.getColor());
+        }
+        frame.pack();
+        frame.repaint();
+    }
+
 
     void select_size() {
         // utwórz komponenty
@@ -146,21 +185,22 @@ public class World implements KeyListener, Serializable {
         return turn;
     }
 
-    public void make_turn(){
-        if(turn%5==0) news_panel.clear();
-        for(int i=0;i<bodies.size();i++){
-            if(bodies.get(i).isAble_to_action()){
-                if(!bodies.get(i).isAlive()){
-                    delete_body(bodies.get(i));
+    public void make_turn() {
+        if (turn % 5 == 0) news_panel.clear();
+        for (int i = 0; i < bodies.size(); i++) {
+            if (bodies.get(i) != null) {
+                if (bodies.get(i).isAble_to_action()) {
+                    if (!bodies.get(i).isAlive()) {
+                        delete_body(bodies.get(i));
+                    } else {
+                        bodies.get(i).increment_age();
+                        news_panel.add_title_name(bodies.get(i).getName() + "---> ");
+                        bodies.get(i).move();
+                    }
+                } else {
+                    bodies.get(i).setAble_to_action(true);
                 }
-                else{
-                    bodies.get(i).increment_age();
-                    news_panel.add_title_name(bodies.get(i).getName()+"---> ");
-                    bodies.get(i).move();
-                }
-            }
-            else{
-                bodies.get(i).setAble_to_action(true);
+                System.out.println(bodies.get(i).getName() + " " + bodies.get(i).getPoint_location().getX() + " " + bodies.get(i).getPoint_location().getY());
             }
         }
         turn++;
@@ -268,6 +308,10 @@ public class World implements KeyListener, Serializable {
 
     public int getOrder() {
         return order;
+    }
+
+    public List<Body> getBodies() {
+        return bodies;
     }
 
     public NewsPanel getNews_panel() {

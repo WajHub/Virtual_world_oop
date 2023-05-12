@@ -6,9 +6,11 @@ import World.Point;
 import World.body.animal.*;
 import World.body.plant.*;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class  Body {
+public abstract class  Body implements Serializable {
+    private static final long serialVersionUID = 123456789L;
     private String name;
     private Color_obj color;
     private int power;
@@ -144,6 +146,7 @@ public abstract class  Body {
     protected abstract void collision(Body other);
     protected abstract void action();
     //Getters and setters
+
 
     public void setName(String name) {
         this.name = name;

@@ -5,9 +5,12 @@ import GUI.Color_obj;
 import World.Point;
 import World.World;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Animal extends Body {
+public abstract class Animal extends Body implements Serializable {
+    private static final long serialVersionUID = 738293893738294L;
+
     private Point last_position;
     private boolean random_location_born(Point new_point, Body other){
         int free_spaces = getWorld().free_spaces(this);

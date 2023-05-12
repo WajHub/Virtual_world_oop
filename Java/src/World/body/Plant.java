@@ -4,9 +4,12 @@ import GUI.Color_obj;
 import World.Point;
 import World.World;
 
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Plant extends Body{
+public abstract class Plant extends Body implements Serializable {
+    private static final long serialVersionUID = -1234567890L;
+
     public Plant() {
     }
 

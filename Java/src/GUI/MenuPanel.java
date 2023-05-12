@@ -1,6 +1,7 @@
 package GUI;
 
 import World.World;
+import World.body.Body;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,10 +57,9 @@ public class MenuPanel extends JPanel implements ActionListener {
                     Object deserializedObject = in.readObject();
                     // Do something with the deserialized object
                     if(deserializedObject instanceof World){
-                        world = (World) deserializedObject;
+                        world.load_game((World) deserializedObject);
                         world.getNews_panel().add_news("Game loaded from file: "+file.getName());
                     }
-
                 } catch (IOException | ClassNotFoundException er) {
                     // Handle any exceptions that occur during deserialization
                     er.printStackTrace();
@@ -78,6 +78,7 @@ public class MenuPanel extends JPanel implements ActionListener {
                 // Zapisz obiekt do pliku
                 outputStream.writeObject(world);
                 world.getNews_panel().add_news("Game saved to file: "+fileName);
+
 
                 // Zamknij strumień wyjściowy
                 outputStream.close();
