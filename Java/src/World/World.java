@@ -3,6 +3,7 @@ package World;
 import GUI.*;
 import World.body.Body;
 import World.body.animal.*;
+import World.body.plant.*;
 
 import javax.swing.*;
 import javax.swing.Box;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -35,7 +37,7 @@ public class World implements KeyListener, Serializable {
     private int order;
     private boolean human_special_ability_is_active=false;
     public World() {
-        bodies = new java.util.ArrayList<>();
+        bodies = new LinkedList<>();
         frame = new WorldFrame();
         panel = new WorldPanel(this);
         frame.addKeyListener(this);
@@ -54,9 +56,8 @@ public class World implements KeyListener, Serializable {
         if(news_panel!=null){
             panel.remove(news_panel);
         }
+        frame.repaint();
         select_size();
-        board_panel = new BoardPanel(x_size,y_size);
-        panel.add(board_panel);
         news_panel = new NewsPanel();
         panel.add(news_panel);
         panel.refresh();
@@ -94,15 +95,14 @@ public class World implements KeyListener, Serializable {
                 board_panel.add(boxes[i][j]);
             }
         }
-
         bodies.clear();
         for(Body body: new_world.bodies){
             add_body(body);
             body.setWorld(this);
-            System.out.println(body.getName()+" "+body.getPoint_location().getX()+" "+body.getPoint_location().getY()+body.getColor());
         }
-        frame.pack();
         frame.repaint();
+        frame.pack();
+
     }
 
 
@@ -110,8 +110,8 @@ public class World implements KeyListener, Serializable {
         // utwórz komponenty
         JLabel label_x = new JLabel("Select width: " + x_size);
         JLabel label_y = new JLabel("Select height: " + y_size);
-        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
-        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 2, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_x = new JSlider(JSlider.HORIZONTAL, 10, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
+        JSlider slider_y = new JSlider(JSlider.HORIZONTAL, 10, 50, 20); // ustawienia suwaka: wartość minimalna, wartość maksymalna, wartość początkowa
         JButton button = new JButton("OK");
 
         // utwórz okno dialogowe
@@ -166,11 +166,126 @@ public class World implements KeyListener, Serializable {
         }
         frame.pack();
         //Dodawnie organizmow
+        add_initial_bodies();
+        make_turn();
+    }
+
+    public void add_initial_bodies(){
+        int amount;
         int random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
         int random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
-        Human human = new Human(new Point(1,1),this);
+        Human human = new Human(new Point(random_x,random_y),this);
         add_body(human);
-        make_turn();
+        //antelope
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Antelope antelope = new Antelope(new Point(random_x,random_y),this);
+                add_body(antelope);
+            }
+            else i--;
+        }
+        //fox
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Fox fox = new Fox(new Point(random_x,random_y),this);
+                add_body(fox);
+            }
+            else i--;
+        }
+        //sheep
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Sheep sheep = new Sheep(new Point(random_x,random_y),this);
+                add_body(sheep);
+            }
+            else i--;
+        }
+        //tortoise
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Tortoise tortoise = new Tortoise(new Point(random_x,random_y),this);
+                add_body(tortoise);
+            }
+            else i--;
+        }
+        //wolf
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Wolf wolf = new Wolf(new Point(random_x,random_y),this);
+                add_body(wolf);
+            }
+            else i--;
+        }
+        //grass
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Grass grass = new Grass(new Point(random_x,random_y),this);
+                add_body(grass);
+            }
+            else i--;
+        }
+        //belladonna
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Belladonna belladonna = new Belladonna(new Point(random_x,random_y),this);
+                add_body(belladonna);
+            }
+            else i--;
+        }
+        //guarana
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Guarana guarana = new Guarana(new Point(random_x,random_y),this);
+                add_body(guarana);
+            }
+            else i--;
+        }
+        //sosnowsky_hogweed
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                SosnowskysHogweed sosnowsky_hogweed = new SosnowskysHogweed(new Point(random_x,random_y),this);
+                add_body(sosnowsky_hogweed);
+            }
+            else i--;
+        }
+        //dandelion
+        amount = x_size*y_size/101;
+        for(int i=0;i<amount;i++){
+            random_x = ThreadLocalRandom.current().nextInt(1, x_size+1) ;
+            random_y = ThreadLocalRandom.current().nextInt(1, y_size+1) ;
+            if(boxes[random_y-1][random_x-1].getColor()==Color_obj.EMPTY.getColor()){
+                Dandelion dandelion = new Dandelion(new Point(random_x,random_y),this);
+                add_body(dandelion);
+            }
+            else i--;
+        }
     }
 
     public WorldPanel getPanel() {
@@ -188,19 +303,19 @@ public class World implements KeyListener, Serializable {
     public void make_turn() {
         if (turn % 5 == 0) news_panel.clear();
         for (int i = 0; i < bodies.size(); i++) {
-            if (bodies.get(i) != null) {
-                if (bodies.get(i).isAble_to_action()) {
-                    if (!bodies.get(i).isAlive()) {
-                        delete_body(bodies.get(i));
+            Body body = bodies.get(i);
+            if (body != null) {
+                if (body.isAble_to_action()) {
+                    if (!body.isAlive()) {
+                        delete_body(body);
                     } else {
-                        bodies.get(i).increment_age();
-                        news_panel.add_title_name(bodies.get(i).getName() + "---> ");
-                        bodies.get(i).move();
+                        body.increment_age();
+                        news_panel.add_title_name(body.getName() + "---> ");
+                        body.move();
                     }
                 } else {
-                    bodies.get(i).setAble_to_action(true);
+                    body.setAble_to_action(true);
                 }
-                System.out.println(bodies.get(i).getName() + " " + bodies.get(i).getPoint_location().getX() + " " + bodies.get(i).getPoint_location().getY());
             }
         }
         turn++;

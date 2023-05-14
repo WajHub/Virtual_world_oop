@@ -22,7 +22,7 @@ public class Dandelion extends Plant implements Serializable {
         int randomNumber;
         for(int i=3;i>0;i--){
             randomNumber = ThreadLocalRandom.current().nextInt(0, 201);
-            if(randomNumber%100<8){
+            if(randomNumber%100<3){
                 int free_spaces = getWorld().free_spaces(this);
                 if(free_spaces>0){
                     Point new_point = new Point(getPoint_location().getX(), getPoint_location().getY());
