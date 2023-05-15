@@ -168,6 +168,7 @@ public class World implements KeyListener, Serializable {
         //Dodawnie organizmow
         add_initial_bodies();
         make_turn();
+        //
     }
 
     public void add_initial_bodies(){
