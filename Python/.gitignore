@@ -14,6 +14,7 @@ Pipfile
 Pipfile.lock
 
 # IDE specific files
+.idea
 .idea/
 .vscode/
 
