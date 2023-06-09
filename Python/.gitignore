@@ -1,0 +1,77 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Dependencies
+# If you're using pipenv for dependency management
+Pipfile
+Pipfile.lock
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.exe
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other project-specific files/directories to ignore
+
+
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Dependencies (if you're using pipenv for dependency management)
+Pipfile
+Pipfile.lock
+
+# PyCharm specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+
+# Compiled files
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.exe
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other project-specific files/directories to ignore
