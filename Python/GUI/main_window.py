@@ -18,6 +18,8 @@ class MainWindow:
         self.root.title("Virtual World")
         self.root.geometry("1000x800")
         self.root.resizable(False, False)
+        self.root.bind("<KeyPress>", self.on_key_press)
+        self.root.focus_set()
 
         self.board = tk.Frame(self.root, width=600, height=600)
         self.board.place(x=10, y=10)
@@ -36,8 +38,16 @@ class MainWindow:
         self.news = tk.Frame(self.root, width=350, height=480, bg="yellow")
         self.news.pack(anchor="e", pady=10, padx=10)
 
-        self.root.mainloop()
+    def on_key_press(self, event):
+        # Event handler for key press
+        print("Key pressed:", event.keysym)
+        self.world.make_turn()
 
     @property
     def get_board(self):
         return self.board
+
+    def start(self):
+        self.root.mainloop()
+
+

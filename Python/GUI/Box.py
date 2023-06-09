@@ -1,5 +1,5 @@
 import tkinter as tk
-from GUI.Colors import Colors
+from GUI.colors import Colors
 
 
 class Box:
@@ -7,7 +7,7 @@ class Box:
     board = None
     x = None
     y = None
-    color = Colors.EMPTY.value
+    color = Colors.EMPTY
     button = None
 
     def __init__(self, world, board, x, y):
@@ -17,11 +17,18 @@ class Box:
         self.y = y
         self.pixelVirtual = tk.PhotoImage(width=1, height=1)
         self.button = tk.Button(board, image=self.pixelVirtual, width=23, height=23, command=self.handle_click)
-        self.button.config(bg=self.color)
+        self.button.config(bg=self.color.value)
 
     @property
     def get_button(self):
         return self.button
+
+    def get_color(self):
+        return self.color
+
+    def set_color(self, color):
+        self.color = color
+        self.button.config(bg=self.color.value)
 
     def handle_click(self):
         # Tutaj możesz umieścić kod obsługujący kliknięcie przycisku
