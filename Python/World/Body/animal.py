@@ -135,5 +135,6 @@ class Animal(Body, ABC):
     def get_last_position(self):
         return self.last_position
 
+    @abstractmethod
     def repel_attack(self, attacker):
         pass
