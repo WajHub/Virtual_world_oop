@@ -69,16 +69,20 @@ class Body(ABC):
 
     def new_body(self, point):
         from World.Body.Animal.wolf import Wolf
+        from World.Body.Animal.antelope import Antelope
+        from World.Body.Animal.sheep import Sheep
+        from World.Body.Animal.fox import Fox
+        from World.Body.Animal.tortoise import Tortoise
         if self.color == Colors.WOLF:
             self.world.add_body(Wolf(point, self.world))
-        # elif self.color == Colors.SHEEP:
-        #     # self.world.add_body(Sheep(point, self.world))
-        # elif self.color == Colors.ANTELOPE:
-        #     # self.world.add_body(Antelope(point, self.world))
-        # elif self.color == Colors.FOX:
-        #     # self.world.add_body(Fox(point, self.world))
-        # elif self.color == Colors.TORTOISE:
-        #     # self.world.add_body(Tortoise(point, self.world))
+        elif self.color == Colors.SHEEP:
+            self.world.add_body(Sheep(point, self.world))
+        elif self.color == Colors.ANTELOPE:
+            self.world.add_body(Antelope(point, self.world))
+        elif self.color == Colors.FOX:
+            self.world.add_body(Fox(point, self.world))
+        elif self.color == Colors.TORTOISE:
+            self.world.add_body(Tortoise(point, self.world))
         # elif self.color == Colors.GRASS:
         #     # self.world.add_body(Grass(point, self.world))
         # elif self.color == Colors.DANDELION:

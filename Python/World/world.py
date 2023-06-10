@@ -1,6 +1,9 @@
 from GUI.colors import Colors
 from GUI.main_window import MainWindow
+from World.Body.Animal.antelope import Antelope
+from World.Body.Animal.fox import Fox
 from World.Body.Animal.human import Human
+from World.Body.Animal.tortoise import Tortoise
 from World.Body.Animal.wolf import Wolf
 from World.point import Point
 
@@ -25,7 +28,9 @@ class World:
         self.add_body(wolf)
         self.add_body(Wolf(Point(2, 1), self))
         self.add_body(Wolf(Point(2, 3), self))
-        self.add_body(Wolf(Point(2, 4), self))
+        self.add_body(Tortoise(Point(2, 4), self))
+        self.add_body(Fox(Point(10, 4), self))
+        self.add_body(Antelope(Point(10, 14), self))
         human = Human(Point(20, 20), self)
         self.add_body(human)
         self.mainWindow.start()

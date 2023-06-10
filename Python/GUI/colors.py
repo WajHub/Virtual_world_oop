@@ -7,7 +7,9 @@ class Colors(Enum):
     WOLF = '#000000'
     HUMAN = '#DC9393'
     SHEEP = '#FFFFFF'
-    ORANGE = 'orange'
+    ANTELOPE = '#AF6E4D'
+    FOX = '#D55514'
+    TORTOISE = '#174617'
 
 
 
