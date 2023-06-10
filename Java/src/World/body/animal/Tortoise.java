@@ -33,6 +33,7 @@ public class Tortoise extends Animal implements Serializable {
 
     @Override
     protected boolean repel_attack(Body attacker) {
-        return false;
+
+        return attacker.getPower() < 5;
     }
 }
