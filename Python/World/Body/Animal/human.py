@@ -1,83 +1,47 @@
 from GUI.colors import Colors
+from World.Body.animal import Animal
+from World.point import Point
 
 
-class Human:
-    def __init__(self, world, point):
-        self.world = world
-        self.point = point
-        self.alive = True
-        self.color = Colors.HUMAN.color
-        self.initiative = 4
-        self.strength = 5
-        self.initiative_counter = 0
-        self.age = 0
-        self.name = "Human"
+class Human(Animal):
+    additional_power = 0
+    age_when_used_special_skill = -10
+
+    def __init__(self, point_location, world):
+        super().__init__(point_location, world)
+        self.set_name("Human")
+        self.set_color(Colors.HUMAN)
+        self.set_initiative(4)
+        self.set_power(5)
+
+    def repel_attack(self, attacker):
+        return False
 
     def action(self):
-        if self.alive:
-            self.age += 1
-            self.initiative_counter += self.initiative
-            if self.initiative_counter >= 5:
-                self.initiative_counter = 0
-                self.move()
-                self.collision()
-                self.breed()
-                self.starve()
+        order = self.get_world().get_order()
+        if self.get_world().get_order() == 'Up':
+            self.set_last_position(self.get_point_location())
+            self.set_point_location(Point(self.get_point_location().x, self.get_point_location().y - 1))
+        elif order == "Down":
+            self.set_last_position(self.get_point_location())
+            self.set_point_location(Point(self.get_point_location().x, self.get_point_location().y + 1))
+        elif order == "Left":
+            self.set_last_position(self.get_point_location())
+            self.set_point_location(Point(self.get_point_location().x - 1, self.get_point_location().y))
+        elif order == "Right":
+            self.set_last_position(self.get_point_location())
+            self.set_point_location(Point(self.get_point_location().x + 1, self.get_point_location().y))
 
-    def collision(self):
-        if self.alive:
-            for body in self.world.bodies:
-                if body.get_point_location() == self.point and body != self:
-                    if isinstance(body, Human):
-                        self.world.human_is_alive = False
-                    elif isinstance(body, Animal):
-                        if body.get_strength() < self.strength:
-                            self.world.delete_body(body)
-                        else:
-                            self.world.delete_body(self)
+    def can_use_ability(self):
+        if self.age_when_used_special_skill + 10 <= self.get_age():
+            return True
+        return False
 
-    def breed(self):
-        if self.alive:
-            if self.age >= 5:
-                if self.world.free_spaces(self) > 0:
-                    self.world.add_body(Human(self.world, self.world.get_random_free_point(self)))
+    def set_additional_power(self, i):
+        self.additional_power = i
 
-    def move(self):
-        if self.alive:
-            self.world.boxes[self.point.y - 1][self.point.x - 1].set_color(Colors.EMPTY.color)
-            self.point = self.world.get_random_free_point(self)
-            self.world.boxes[self.point.y - 1][self.point.x - 1].set_color(self.color)
+    def get_additional_power(self):
+        return self.additional_power
 
-    def starve(self):
-        pass
-
-    def get_point_location(self):
-        return self.point
-
-    def set_point_location(self, point):
-        self.point = point
-
-    def get_color(self):
-        return self.color
-
-    def set_color(self, color):
-        self.color = color
-
-    def get_alive(self):
-        return self.alive
-
-    def set_alive(self, alive):
-        self.alive = alive
-
-    def get_initiative(self):
-        return self.initiative
-
-    def set_initiative(self, initiative):
-        self.initiative = initiative
-
-    def get_strength(self):
-        return self.strength
-
-    def set_strength(self, strength):
-        self.strength = strength
-
+    def set_age_when_used_special_skill(self, age):
+        self.age_when_used_special_skill = age

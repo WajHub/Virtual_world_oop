@@ -2,9 +2,7 @@ import random
 from abc import ABC, abstractmethod
 
 from GUI.colors import Colors
-
-
-# from World.Body.Animal.wolf import Wolf
+from World.point import Point
 
 
 class Body(ABC):
@@ -48,30 +46,31 @@ class Body(ABC):
     def random_location_empty(self, body, new_point):
         x = body.get_point_location().get_x()
         y = body.get_point_location().get_y()
+        # new_point = Point(x, y)
         tmp = True
         while tmp:
             randomNumber = random.randint(1, 4)
             if randomNumber == 1:
                 if x < 20 and body.world.boxes[y - 1][x].color.name == 'EMPTY':
-                    new_point[0] += 1
+                    new_point.set_x(new_point.get_x()+1)
                     tmp = False
             elif randomNumber == 2:
                 if x > 1 and body.world.boxes[y - 1][x - 2].color.name == 'EMPTY':
-                    new_point[0] -= 1
+                    new_point.set_x(new_point.get_x()-1)
                     tmp = False
             elif randomNumber == 3:
-                if y < body.world.y_size and body.world.boxes[y][x - 1].color.name == 'EMPTY':
-                    new_point[1] += 1
+                if y < 20 and body.world.boxes[y][x - 1].color.name == 'EMPTY':
+                    new_point.set_y(new_point.get_y()+1)
                     tmp = False
             elif randomNumber == 4:
-                if y > 1 and body.world.boxes[y - 2][x - 1].color == 'EMPTY':
-                    new_point[1] -= 1
+                if y > 1 and body.world.boxes[y - 2][x - 1].color.name == 'EMPTY':
+                    new_point.set_y(new_point.get_y()-1)
                     tmp = False
 
     def new_body(self, point):
-        print("new body")
-        # if self.color == Colors.WOLF:
-        #     self.world.add_body(Wolf(point, self.world))
+        from World.Body.Animal.wolf import Wolf
+        if self.color == Colors.WOLF:
+            self.world.add_body(Wolf(point, self.world))
         # elif self.color == Colors.SHEEP:
         #     # self.world.add_body(Sheep(point, self.world))
         # elif self.color == Colors.ANTELOPE:

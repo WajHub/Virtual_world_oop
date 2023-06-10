@@ -39,9 +39,9 @@ class MainWindow:
         self.news.pack(anchor="e", pady=10, padx=10)
 
     def on_key_press(self, event):
-        # Event handler for key press
-        print("Key pressed:", event.keysym)
-        self.world.make_turn()
+        self.world.set_order(event.keysym)
+        if self.world.order_is_correct():
+            self.world.make_turn()
 
     @property
     def get_board(self):
@@ -50,4 +50,6 @@ class MainWindow:
     def start(self):
         self.root.mainloop()
 
+    def get_world(self):
+        return self.world
 
