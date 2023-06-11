@@ -54,6 +54,7 @@ class SosnowskysHogweed(Plant):
                 attacker.get_point_location().get_x() - 1
                 ].set_color(Colors.CYBERSHEEP)
             self.world.delete_body(self)
+            self.world.points_sosnowskys_hogweed.remove(self.get_point_location())
         else:
             self.world.mainWindow.add_text(
                 attacker.get_name()

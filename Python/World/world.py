@@ -1,6 +1,7 @@
 from GUI.colors import Colors
 from GUI.main_window import MainWindow
 from World.Body.Animal.antelope import Antelope
+from World.Body.Animal.cybersheep import CyberSheep
 from World.Body.Animal.fox import Fox
 from World.Body.Animal.human import Human
 from World.Body.Animal.sheep import Sheep
@@ -38,12 +39,14 @@ class World:
         self.add_body(Fox(Point(10, 4), self))
         self.add_body(Antelope(Point(10, 14), self))
         self.add_body(Sheep(Point(10, 10), self))
-
+        self.add_body(CyberSheep(Point(10, 15), self))
+        self.add_body(Wolf(Point(9, 15), self))
         self.add_body(Belladonna(Point(10, 11), self))
         self.add_body(Dandelion(Point(15, 11), self))
         self.add_body(Grass(Point(7, 7), self))
         self.add_body(Guarana(Point(7, 9), self))
         self.add_body(SosnowskysHogweed(Point(5, 11), self))
+        self.add_body(SosnowskysHogweed(Point(8, 11), self))
         human = Human(Point(20, 20), self)
         self.add_body(human)
         self.mainWindow.start()

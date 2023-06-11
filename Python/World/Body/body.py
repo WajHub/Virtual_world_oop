@@ -73,6 +73,7 @@ class Body(ABC):
         from World.Body.Animal.sheep import Sheep
         from World.Body.Animal.fox import Fox
         from World.Body.Animal.tortoise import Tortoise
+        from World.Body.Animal.cybersheep import CyberSheep
         from World.Body.Plant.grass import Grass
         from World.Body.Plant.belladonna import Belladonna
         from World.Body.Plant.dandelion import Dandelion
@@ -88,6 +89,8 @@ class Body(ABC):
             self.world.add_body(Fox(point, self.world))
         elif self.color == Colors.TORTOISE:
             self.world.add_body(Tortoise(point, self.world))
+        elif self.color == Colors.CYBERSHEEP:
+            self.world.add_body(CyberSheep(point, self.world))
         elif self.color == Colors.GRASS:
             self.world.add_body(Grass(point, self.world))
         elif self.color == Colors.DANDELION:

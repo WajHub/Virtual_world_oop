@@ -34,15 +34,16 @@ class CyberSheep(Animal):
                 y = self.point_location.y
                 self.set_last_position(self.get_point_location())
                 self.set_point_location(Point(x + 1, y))
-            differencey = self.point_location.y - point.y
-            if differencey > 0:
-                x = self.point_location.x
-                y = self.point_location.y
-                self.set_last_position(self.get_point_location())
-                self.set_point_location(Point(x, y - 1))
-            elif differencey < 0:
-                x = self.point_location.x
-                y = self.point_location.y
-                self.set_last_position(self.get_point_location())
-                self.set_point_location(Point(x, y + 1))
+            else:
+                differencey = self.point_location.y - point.y
+                if differencey > 0:
+                    x = self.point_location.x
+                    y = self.point_location.y
+                    self.set_last_position(self.get_point_location())
+                    self.set_point_location(Point(x, y - 1))
+                elif differencey < 0:
+                    x = self.point_location.x
+                    y = self.point_location.y
+                    self.set_last_position(self.get_point_location())
+                    self.set_point_location(Point(x, y + 1))
 
