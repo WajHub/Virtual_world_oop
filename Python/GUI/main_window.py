@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import scrolledtext
 
 from GUI.Box import Box
 
@@ -10,7 +11,9 @@ class MainWindow:
     legend = None
     menu = None
     news = None
+    text_widget = None
     world = None
+    text = ""
 
     def __init__(self, world):
         self.world = world
@@ -35,8 +38,11 @@ class MainWindow:
         self.menu = tk.Frame(self.root, width=350, height=100, bg="green")
         self.menu.pack(anchor="ne", pady=10, padx=10)
 
-        self.news = tk.Frame(self.root, width=350, height=480, bg="yellow")
+        self.news = tk.Frame(self.root, width=350, height=480)
         self.news.pack(anchor="e", pady=10, padx=10)
+        self.text_widget = scrolledtext.ScrolledText(self.news, width=40, height=30)
+        self.text_widget.pack(fill=tk.BOTH, expand=True)
+        self.text_widget.insert("end", self.text)
 
     def on_key_press(self, event):
         self.world.set_order(event.keysym)
@@ -53,3 +59,8 @@ class MainWindow:
     def get_world(self):
         return self.world
 
+    def clear_text(self):
+        self.text_widget.delete('1.0', tk.END)
+
+    def add_text(self, adding_text):
+        self.text_widget.insert("end", adding_text)

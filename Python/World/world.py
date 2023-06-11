@@ -3,8 +3,14 @@ from GUI.main_window import MainWindow
 from World.Body.Animal.antelope import Antelope
 from World.Body.Animal.fox import Fox
 from World.Body.Animal.human import Human
+from World.Body.Animal.sheep import Sheep
 from World.Body.Animal.tortoise import Tortoise
 from World.Body.Animal.wolf import Wolf
+from World.Body.Plant.belladonna import Belladonna
+from World.Body.Plant.dandelion import Dandelion
+from World.Body.Plant.grass import Grass
+from World.Body.Plant.guarana import Guarana
+from World.Body.Plant.sosnowskys_hogweed import SosnowskysHogweed
 from World.point import Point
 
 
@@ -18,6 +24,7 @@ class World:
     human_is_alive = True
     human_special_ability_is_active = False
     order = None
+    points_sosnowskys_hogweed = []
 
     def __init__(self):
         self.mainWindow = MainWindow(self)
@@ -27,15 +34,24 @@ class World:
         wolf = Wolf(Point(1, 1), self)
         self.add_body(wolf)
         self.add_body(Wolf(Point(2, 1), self))
-        self.add_body(Wolf(Point(2, 3), self))
         self.add_body(Tortoise(Point(2, 4), self))
         self.add_body(Fox(Point(10, 4), self))
         self.add_body(Antelope(Point(10, 14), self))
+        self.add_body(Sheep(Point(10, 10), self))
+
+        self.add_body(Belladonna(Point(10, 11), self))
+        self.add_body(Dandelion(Point(15, 11), self))
+        self.add_body(Grass(Point(7, 7), self))
+        self.add_body(Guarana(Point(7, 9), self))
+        self.add_body(SosnowskysHogweed(Point(5, 11), self))
         human = Human(Point(20, 20), self)
         self.add_body(human)
         self.mainWindow.start()
 
     def make_turn(self):
+        if self.turn % 10 == 0:
+            self.mainWindow.clear_text()
+        self.mainWindow.add_text("\nTurn: " + str(self.turn))
         i = 0
         while i < len(self.bodies):
             body = self.bodies[i]
@@ -45,15 +61,17 @@ class World:
                         self.delete_body(body)
                     else:
                         body.increment_age()
-                        # self.news_panel.add_title_name(body.get_name() + "---> ")
+                        self.mainWindow.add_text("\n")
+                        self.mainWindow.add_text(body.get_name() + ' [' + str(body.get_power()) + "] " + "---> ")
                         body.move()
                 else:
                     body.set_able_to_action(True)
             i += 1
 
         self.turn += 1
-        # self.human_special_ability()
-        # self.news_panel.add_news(" ")
+        self._human_special_ability()
+        self.mainWindow.add_text("\n")
+        self.mainWindow.add_text("\n")
 
     def add_body(self, body):
         for i in range(len(self.bodies)):
@@ -143,16 +161,20 @@ class World:
                     self.human_special_ability_is_active = True
                     human.set_additional_power(5)
                     human.set_power(human.get_power() + human.get_additional_power())
-                    # news_panel.add_news("Human use special ability!!!")
+                    self.mainWindow.add_text("Human use special ability!!!\n")
                     human.set_age_when_used_special_skill(human.get_age())
                     return False
                 else:
-                    # news_panel.add_news("Human can't use special ability!")
+                    self.mainWindow.add_text("Human can't use special ability!\n")
+
                     return False
 
             return False
 
         return True
+
+    def add_sosnowskys_hogweed(self, point):
+        self.points_sosnowskys_hogweed.append(point)
 
     @property
     def get_main_window(self):
@@ -167,3 +189,15 @@ class World:
 
     def get_order(self):
         return self.order
+
+    def _human_special_ability(self):
+        if self.human_is_alive and self.human_special_ability_is_active:
+            for body in self.bodies:
+                if isinstance(body, Human):
+                    human = body
+                    if human.get_additional_power() > 0:
+                        human.set_additional_power(human.get_additional_power() - 1)
+                        human.set_power(human.get_power() - 1)
+                        break
+                    else:
+                        self.human_special_ability_is_active = False

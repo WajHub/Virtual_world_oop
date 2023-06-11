@@ -22,7 +22,7 @@ class Fox(Animal):
         while tmp:
             self.random_location(new_point)
             tmp = False
-            body = self.get_world().get_body(new_point)
+            body = self.world.get_body(new_point)
             if isinstance(body, Animal):
                 if body.get_power() > self.get_power():
                     new_point.x = point.x

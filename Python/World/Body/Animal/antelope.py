@@ -1,4 +1,4 @@
-from random import random
+import random
 
 from GUI.colors import Colors
 from World.Body.animal import Animal
@@ -34,14 +34,14 @@ class Antelope(Animal):
         else:
             new_point = Point(self.get_point_location().x, self.get_point_location().y)
             self.random_location_empty(self, new_point)
-            # self.get_world().get_news_panel().add_news("Move to (" + str(self.get_point_location().x) +
-            #                                            ", " + str(self.get_point_location().y) + ")")
+            self.world.mainWindow.add_text("Move to (" + str(self.get_point_location().x) +
+                                                       ", " + str(self.get_point_location().y) + ")")
             self.get_world().get_boxes[self.get_point_location().y - 1][self.get_point_location().x - 1].set_color(
                 attacker.get_color())
             self.set_last_position(self.get_point_location())
             self.set_point_location(new_point)
-            # self.get_world().get_news_panel().add_news("Run away to (" + str(self.get_point_location().x) +
-            #                                            ", " + str(self.get_point_location().y) + ")")
+            self.world.mainWindow.add_text("Run away to (" + str(self.get_point_location().x) +
+                                                       ", " + str(self.get_point_location().y) + ")")
             self.get_world().get_boxes[self.get_point_location().y - 1][self.get_point_location().x - 1].set_color(
                 self.get_color())
 

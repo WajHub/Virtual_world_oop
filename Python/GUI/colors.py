@@ -15,5 +15,7 @@ class Colors(Enum):
     DANDELION = '#FFFF00'
     GUARANA = '#BE3951'
     SOSNOWSKYSHOGWEED = '#5EB2D9'
+    CYBERSHEEP = "#787939"
+
 
 

@@ -73,6 +73,11 @@ class Body(ABC):
         from World.Body.Animal.sheep import Sheep
         from World.Body.Animal.fox import Fox
         from World.Body.Animal.tortoise import Tortoise
+        from World.Body.Plant.grass import Grass
+        from World.Body.Plant.belladonna import Belladonna
+        from World.Body.Plant.dandelion import Dandelion
+        from World.Body.Plant.guarana import Guarana
+        from World.Body.Plant.sosnowskys_hogweed import SosnowskysHogweed
         if self.color == Colors.WOLF:
             self.world.add_body(Wolf(point, self.world))
         elif self.color == Colors.SHEEP:
@@ -83,16 +88,16 @@ class Body(ABC):
             self.world.add_body(Fox(point, self.world))
         elif self.color == Colors.TORTOISE:
             self.world.add_body(Tortoise(point, self.world))
-        # elif self.color == Colors.GRASS:
-        #     # self.world.add_body(Grass(point, self.world))
-        # elif self.color == Colors.DANDELION:
-        #     # self.world.add_body(Dandelion(point, self.world))
-        # elif self.color == Colors.GUARANA:
-        #     # self.world.add_body(Guarana(point, self.world))
-        # elif self.color == Colors.BELLADONNA:
-        #     # self.world.add_body(Belladonna(point, self.world))
-        # elif self.color == Colors.SOSNOWSKYSHOGWEED:
-        #     # self.world.add_body(SosnowskysHogweed(point, self.world))
+        elif self.color == Colors.GRASS:
+            self.world.add_body(Grass(point, self.world))
+        elif self.color == Colors.DANDELION:
+            self.world.add_body(Dandelion(point, self.world))
+        elif self.color == Colors.GUARANA:
+            self.world.add_body(Guarana(point, self.world))
+        elif self.color == Colors.BELLADONNA:
+            self.world.add_body(Belladonna(point, self.world))
+        elif self.color == Colors.SOSNOWSKYSHOGWEED:
+            self.world.add_body(SosnowskysHogweed(point, self.world))
 
     def increment_age(self):
         self.age += 1
@@ -159,6 +164,7 @@ class Body(ABC):
     def is_alive(self):
         return self.alive
 
+    @property
     def get_world(self):
         return self.world
 

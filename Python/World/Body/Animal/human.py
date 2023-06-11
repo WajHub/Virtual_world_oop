@@ -18,8 +18,8 @@ class Human(Animal):
         return False
 
     def action(self):
-        order = self.get_world().get_order()
-        if self.get_world().get_order() == 'Up':
+        order = self.world.get_order()
+        if  order == 'Up':
             self.set_last_position(self.get_point_location())
             self.set_point_location(Point(self.get_point_location().x, self.get_point_location().y - 1))
         elif order == "Down":
