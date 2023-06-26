@@ -296,7 +296,7 @@ void World::draw_world() {
     for (it = bodies.begin(); it != bodies.end(); ++it) {
         (*it)->draw();
     }
-    World::test_map(*this);
+//    World::test_map(*this);
 }
 
 bool World::order_is_correct() {

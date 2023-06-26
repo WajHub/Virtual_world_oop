@@ -49,3 +49,27 @@ Plant:
 | Grass               |   0   |                                lack of                                 |                                      lack of                                       |
 | Guarana             |   0   |                                lack of                                 |      Increases the strength of of the animal that has eaten this plant, by 3.      |
 | Sosnowsky's Hogweed |  99   | It kills all animals in its neighborhood except for the cyber-animals. |         The animal that ate this plant dies. Only cyber-animal is immune.          |
+
+
+# Preview
+
+![](cpp1.png)
+
+![](cpp2.png)
+
+![](cpp3.png)
+
+
+![](java1.png)
+
+![](java2.png)
+
+![](java3.png)
+
+
+![](python1.png)
+
+![](python2.png)
+
+![](python3.png)
+
