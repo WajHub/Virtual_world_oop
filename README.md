@@ -53,20 +53,21 @@ Plant:
 
 # Preview
 
+## C++
 ![](cpp1.png)
 
 ![](cpp2.png)
 
 ![](cpp3.png)
 
-
+## Java
 ![](java1.png)
 
 ![](java2.png)
 
 ![](java3.png)
 
-
+## Python
 ![](python1.png)
 
 ![](python2.png)
